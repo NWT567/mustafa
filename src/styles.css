@@ -1,0 +1,311 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-espresso: var(--espresso);
+  --color-coffee: var(--coffee);
+  --color-caramel: var(--caramel);
+  --color-latte: var(--latte);
+  --color-cream: var(--cream);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-ink: var(--gold-ink);
+  --font-display: "DM Serif Display", ui-serif, Georgia, serif;
+  --font-sans: "Fira Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Coffee luxury tokens (Light Roast) */
+  --espresso: oklch(0.2 0.03 42);       /* deep espresso-brown text */
+  --coffee: oklch(0.28 0.04 45);        /* warm coffee brown */
+  --caramel: oklch(0.62 0.11 55);       /* caramel accent */
+  --latte: oklch(0.79 0.06 72);         /* soft latte neutral */
+  --cream: oklch(0.975 0.012 85);       /* warm off-white page tone */
+  --gold: oklch(0.76 0.13 82);          /* button / border gold */
+  --gold-soft: oklch(0.86 0.08 85);     /* lighter gold highlight */
+  --gold-ink: oklch(0.56 0.1 82);       /* readable gold for text */
+
+  /* Semantic tokens: light-mode-first luxury */
+  --background: oklch(0.982 0.008 85);
+  --foreground: var(--espresso);
+  --card: oklch(0.968 0.01 85);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.962 0.01 85);
+  --popover-foreground: var(--foreground);
+  --primary: var(--gold);
+  --primary-foreground: var(--espresso);
+  --secondary: oklch(0.948 0.01 85);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.94 0.01 85);
+  --muted-foreground: oklch(0.42 0.035 45);
+  --accent: var(--gold);
+  --accent-foreground: var(--espresso);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: var(--cream);
+  --border: oklch(0.87 0.02 80 / 85%);
+  --input: oklch(0.86 0.02 80);
+  --ring: var(--gold);
+  --chart-1: var(--gold);
+  --chart-2: var(--caramel);
+  --chart-3: var(--latte);
+  --chart-4: var(--coffee);
+  --chart-5: var(--cream);
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: var(--espresso);
+  --sidebar-accent: var(--muted);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--gold);
+
+  --gradient-hero: radial-gradient(
+      ellipse at 18% 18%,
+      oklch(0.995 0.015 85 / 0.95),
+      transparent 54%
+    ),
+    radial-gradient(
+      ellipse at 86% 24%,
+      oklch(0.94 0.05 74 / 0.7),
+      transparent 58%
+    ),
+    linear-gradient(180deg, oklch(0.992 0.008 85), oklch(0.972 0.01 85));
+  --gradient-gold: linear-gradient(135deg, var(--gold-soft), var(--gold) 45%, var(--caramel));
+  --shadow-luxury: 0 18px 42px -22px oklch(0 0 0 / 0.24), 0 0 0 1px oklch(0.38 0.04 70 / 0.1);
+  --shadow-glow: 0 0 26px -14px oklch(0.76 0.13 82 / 0.28);
+}
+
+@layer base {
+  html {
+    min-height: 100%;
+    background: var(--caramel);
+    font-family: var(--font-sans);
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "ss02";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  button, input, textarea, select {
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: var(--espresso);
+  }
+}
+
+@utility text-gold-gradient {
+  background-image: var(--gradient-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/*
+ * SplitType (premium-motion) wraps each heading character in .char spans.
+ * background-clip:text only paints on the element that owns the glyphs, so:
+ * 1) strip the gradient from the wrapper (avoids a solid gold box behind the word)
+ * 2) re-apply the gradient on each .char so the letters stay visible
+ */
+.text-gold-gradient:has(.char) {
+  background-image: none;
+  -webkit-text-fill-color: unset;
+  color: inherit;
+}
+
+.text-gold-gradient .char {
+  background-image: var(--gradient-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility bg-hero {
+  background: var(--gradient-hero);
+}
+
+@utility shadow-luxury {
+  box-shadow: var(--shadow-luxury);
+}
+
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility glass-panel {
+  background:
+    linear-gradient(
+      135deg,
+      oklch(1 0 0 / 0.72),
+      oklch(1 0 0 / 0.34) 45%,
+      oklch(0.96 0.025 84 / 0.5)
+    );
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid oklch(1 0 0 / 0.72);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.85),
+    inset 0 -1px 0 oklch(0.72 0.06 72 / 0.18),
+    0 18px 44px -26px oklch(0.22 0.04 48 / 0.42),
+    0 0 0 1px oklch(0.58 0.04 72 / 0.12);
+}
+
+@keyframes steam-rise {
+  0% { transform: translateY(0) scaleX(1); opacity: 0; }
+  20% { opacity: 0.6; }
+  100% { transform: translateY(-120px) scaleX(1.6); opacity: 0; }
+}
+
+@keyframes bean-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-24px) rotate(12deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@utility animate-steam {
+  animation: steam-rise 4s ease-out infinite;
+}
+
+@utility animate-bean-float {
+  animation: bean-float 6s ease-in-out infinite;
+}
+
+@keyframes bean-fall {
+  0% { transform: translateY(-20%) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(120%) rotate(540deg); opacity: 0; }
+}
+
+@utility animate-bean-fall {
+  animation: bean-fall 4s linear infinite;
+}
+
+.landing-page {
+  scrollbar-width: none;
+}
+
+.landing-page::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.contact-page {
+  scrollbar-width: none;
+}
+
+.contact-page::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.brand-promise-page {
+  scrollbar-width: none;
+}
+
+.brand-promise-page::-webkit-scrollbar,
+html:has(.brand-promise-page)::-webkit-scrollbar,
+body:has(.brand-promise-page)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+html:has(.brand-promise-page),
+body:has(.brand-promise-page) {
+  scrollbar-width: none;
+}
+html,
+body,
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d0d0d"/>
+      <stop offset="100%" stop-color="#2c1810"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f6e7d8"/>
+      <stop offset="50%" stop-color="#d6a74f"/>
+      <stop offset="100%" stop-color="#b67a3a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="920" cy="170" r="210" fill="#d6a74f" opacity=".16"/>
+  <circle cx="280" cy="480" r="170" fill="#f6e7d8" opacity=".08"/>
+  <text x="90" y="210" fill="#f6e7d8" font-family="Georgia, serif" font-size="88">Mustafa</text>
+  <text x="90" y="310" fill="url(#gold)" font-family="Georgia, serif" font-size="100">Coffee House</text>
+  <text x="92" y="392" fill="#f6e7d8" opacity=".75" font-family="Arial, sans-serif" font-size="32">
+    Luxury coffee, artisan pastries, and a serene café experience.
+  </text>
+  <rect x="90" y="448" width="220" height="4" rx="2" fill="#d6a74f"/>
+  <text x="90" y="516" fill="#f6e7d8" opacity=".65" font-family="Arial, sans-serif" font-size="26">
+    Order online, reserve a table, and earn rewards.
+  </text>
+</svg>

@@ -1,0 +1,268 @@
+================================================================
+ MUSTAFA COFFEE HOUSE — BRAND PROFILE
+ Source note for PDF / brand deck creation
+================================================================
+
+Overall Contents
+ - Brand Introduction
+ - Mission & Goal
+ - Primary Color Palette
+ - Secondary Color Palette
+ - Typography System
+ - Primary & Alternative Fonts
+ - Logo Concepts
+ - Logo Applications
+ - Logo Clear Space Rules
+ - Logo Minimum Size
+ - Incorrect Logo Usage
+ - Iconography Guidelines
+ - Logo Variations
+ - Brand Closing Page
+
+----------------------------------------------------------------
+ BRAND INTRODUCTION
+----------------------------------------------------------------
+Brand name:
+ Mustafa Coffee House
+
+Brand positioning:
+ Premium coffee house, bakery, and dessert experience with a warm
+ espresso-and-gold identity, elevated service, and a luxury cafe mood.
+
+Core promise:
+ Slow-roasted beans, handcrafted drinks, fresh bakery items, and a
+ refined place for dine-in, order-ahead, reservations, and rewards.
+
+Primary site sections:
+ 1. Home
+ 2. Menu / Order
+ 3. Reserve
+ 4. About
+ 5. Loyalty
+ 6. Franchise
+ 7. Careers
+ 8. Login / Sign in
+
+----------------------------------------------------------------
+ MISSION & GOAL
+----------------------------------------------------------------
+Mission:
+ To make coffee feel ceremonial, generous, and memorable through
+ premium ingredients, thoughtful service, and a warm brand experience.
+
+Goal:
+ To build a recognizable cafe brand that supports order-ahead, table
+ reservations, loyalty rewards, hiring, and franchise growth while
+ keeping the same refined visual language across the site.
+
+Brand values:
+ - Craft
+ - Hospitality
+ - Consistency
+ - Warmth
+ - Premium presentation
+ - Modern convenience
+
+----------------------------------------------------------------
+ PRIMARY COLOR PALETTE
+----------------------------------------------------------------
+ Primary palette direction:
+ Warm light theme with espresso, cream, caramel, and gold accents.
+
+ Core colors:
+ - Background: warm off-white / cream
+ - Foreground: deep espresso brown
+ - Primary accent: gold
+ - Secondary accent: caramel
+ - Supporting neutrals: muted beige, soft border gray
+
+ Usage:
+ - Backgrounds and page surfaces stay light
+ - Espresso is used for readable text
+ - Gold is used for highlights, borders, button fills, and icons
+ - Caramel is used for gradients and warm emphasis
+
+----------------------------------------------------------------
+ SECONDARY COLOR PALETTE
+----------------------------------------------------------------
+ Secondary tones:
+ - Soft latte
+ - Warm muted gold
+ - Sand
+ - Mocha
+ - Smoke / overlay beige
+
+ Usage:
+ - Secondary cards
+ - Hover states
+ - Subtle borders
+ - Decorative gradients
+ - Badge backgrounds
+
+----------------------------------------------------------------
+ TYPOGRAPHY SYSTEM
+----------------------------------------------------------------
+ Typography direction:
+ Editorial, premium, and high-contrast.
+
+ Headline style:
+ - Large serif headlines
+ - Strong weight contrast
+ - Tight line-height
+ - Used for hero sections, section titles, and feature cards
+
+ Body style:
+ - Clean sans-serif for labels, helper text, inputs, and navigation
+ - Small uppercase tracking for eyebrow labels and utility text
+
+ Common text treatments:
+ - Serif display for emotional and premium moments
+ - Sans-serif for clarity and usability
+ - Gold gradient only for decorative emphasis
+ - Espresso text on light backgrounds for readability
+
+----------------------------------------------------------------
+ PRIMARY & ALTERNATIVE FONTS
+----------------------------------------------------------------
+ Primary display font:
+ - DM Serif Display
+
+ Primary body font:
+ - Fira Sans
+
+ Alternative / fallback stack:
+ - Display: ui-serif, Georgia, serif
+ - Body: ui-sans-serif, system-ui, sans-serif
+
+ Use cases:
+ - DM Serif Display for headings, hero copy, card titles, and brand
+   statements
+ - Fira Sans for navigation, buttons, inputs, helper text, and forms
+
+----------------------------------------------------------------
+ LOGO CONCEPTS
+----------------------------------------------------------------
+ Main logo idea:
+ A refined Mustafa mark paired with a wordmark that feels premium,
+ warm, and hospitality-led.
+
+Concept directions:
+ - Compact icon mark for small placements
+ - Wordmark for hero headers and sign-in areas
+ - Light-background variant for the current site theme
+ - High-contrast usage for clean reading on cream backgrounds
+
+Brand feel:
+ - Premium cafe
+ - Artisan coffee
+ - Modern hospitality
+ - Elegant and memorable
+
+----------------------------------------------------------------
+ LOGO APPLICATIONS
+----------------------------------------------------------------
+ Where the logo appears:
+ - Navigation bar
+ - Home hero
+ - Login page
+ - Footer
+ - Brand deck / PDF cover
+ - Social or promotional assets
+
+ Recommended usage:
+ - Use the wordmark on larger surfaces
+ - Use the compact mark where space is limited
+ - Keep the logo clear against cream or light surfaces
+ - Avoid placing the logo over busy imagery without contrast support
+
+----------------------------------------------------------------
+ LOGO CLEAR SPACE RULES
+----------------------------------------------------------------
+ Clear space rule:
+ Keep enough breathing room around the logo so no text, borders, or
+ imagery crowd it.
+
+ Practical rule:
+ - Maintain at least one logo-mark height of clear space on all sides
+ - Do not overlay other labels directly on the logo
+ - Do not squeeze the logo into tight image corners
+
+----------------------------------------------------------------
+ LOGO MINIMUM SIZE
+----------------------------------------------------------------
+ Minimum size guidance:
+ - Compact icon: keep large enough to remain recognizable in navigation
+ - Wordmark: keep large enough to read clearly on desktop and mobile
+
+ Practical rule:
+ - Do not shrink the logo until the mark loses detail or the wordmark
+   becomes hard to read
+ - Use the compact mark for tiny placements and the wordmark for
+   headers, footers, and sign-in screens
+
+----------------------------------------------------------------
+ INCORRECT LOGO USAGE
+----------------------------------------------------------------
+ Do not:
+ - Stretch the logo horizontally or vertically
+ - Add random glow effects that weaken contrast
+ - Place the logo on a busy image without a contrast wash
+ - Change the logo colors arbitrarily
+ - Crop the logo too tightly
+ - Rotate or skew the logo
+ - Use a dark-only asset on a light background if contrast suffers
+
+----------------------------------------------------------------
+ ICONOGRAPHY GUIDELINES
+----------------------------------------------------------------
+ Style:
+ - Simple, clean, and line-based icons
+ - Consistent stroke weight
+ - Minimal detail
+ - Warm metallic/gold accents for emphasis
+
+ Usage:
+ - Navigation utilities
+ - CTA buttons
+ - Section badges
+ - Form fields
+ - Rewards and loyalty visuals
+
+ Rules:
+ - Keep icons readable at small sizes
+ - Use one visual style across the site
+ - Do not mix overly detailed and ultra-minimal icons in the same UI
+
+----------------------------------------------------------------
+ LOGO VARIATIONS
+----------------------------------------------------------------
+ Recommended variations:
+ - Full wordmark
+ - Compact mark
+ - Light-background version
+ - Icon-only version
+
+ Suggested usage:
+ - Wordmark: headers, login, footer
+ - Compact mark: favicon, mobile header, small badges
+ - Light-background version: cream and white surfaces
+ - Icon-only: tight spaces and social-style placements
+
+----------------------------------------------------------------
+ BRAND CLOSING PAGE
+----------------------------------------------------------------
+Closing message:
+ Mustafa Coffee House is a premium, warm, and modern coffee brand
+ built around memorable rituals, thoughtful service, and elegant
+ presentation.
+
+Final impression:
+ The brand should feel calm, refined, and welcoming from the first
+ glance to the last sip.
+
+Suggested closing line:
+ Crafted with care. Served with ritual.
+
+================================================================
+ END OF BRAND PROFILE
+================================================================

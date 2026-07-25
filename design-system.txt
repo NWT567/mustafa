@@ -1,0 +1,139 @@
+================================================================
+ MUSTAFA COFFEE HOUSE — DESIGN SYSTEM
+ Extracted from src/styles.css
+================================================================
+
+----------------------------------------------------------------
+ 1. COLOUR PALETTE (Custom Brand Tokens — "Noir & Gold" luxury)
+----------------------------------------------------------------
+ All brand colors are defined in OKLCH format. Approximate HEX
+ equivalents are noted for convenience.
+
+  TOKEN        OKLCH                  APPROX HEX   DESCRIPTION
+  -----------  ---------------------  -----------  --------------------------
+  espresso     oklch(0.16 0.02 40)    #0D0D0D      Near-black warm base
+  coffee       oklch(0.24 0.04 45)    #2C1810      Deep coffee brown
+  caramel      oklch(0.58 0.11 55)    #B67A3A      Warm caramel
+  latte        oklch(0.72 0.08 70)    #C9A67B      Soft latte tan
+  cream        oklch(0.94 0.03 80)    #F6E7D8      Light cream / off-white
+  gold         oklch(0.78 0.13 82)    #D6A74F      Signature gold
+  gold-soft    oklch(0.86 0.09 85)    ~#E6C57E     Lighter, softer gold
+
+----------------------------------------------------------------
+ 2. COLOUR SCHEME (Semantic Tokens — dark-mode-first)
+----------------------------------------------------------------
+ The site is dark-mode-first. Background = espresso, foreground =
+ cream, with gold as the primary/accent color.
+
+  SEMANTIC TOKEN            VALUE                              ROLE
+  -----------------------  ---------------------------------  ---------------------
+  background               var(--espresso)                    Page background
+  foreground               var(--cream)                       Body text
+  card                     oklch(0.19 0.03 40)                Card surfaces
+  card-foreground          var(--cream)                        Card text
+  popover                  oklch(0.19 0.03 40)                Popover surfaces
+  popover-foreground       var(--cream)                       Popover text
+  primary                  var(--gold)                        Primary actions/CTAs
+  primary-foreground       var(--espresso)                    Text on primary
+  secondary                var(--coffee)                      Secondary surfaces
+  secondary-foreground      var(--cream)                      Text on secondary
+  muted                    oklch(0.22 0.03 40)                Muted backgrounds
+  muted-foreground         oklch(0.72 0.04 75)               Muted/subtle text
+  accent                   var(--gold)                        Accent / highlights
+  accent-foreground        var(--espresso)                    Text on accent
+  destructive              oklch(0.55 0.2 25)                Errors / destructive
+  destructive-foreground   var(--cream)                       Text on destructive
+  border                   oklch(0.32 0.03 55 / 60%)         Borders (semi-transparent)
+  input                    oklch(0.28 0.03 50)               Input field backgrounds
+  ring                     var(--gold)                        Focus rings
+
+  Chart palette (data visualizations):
+    chart-1  = gold
+    chart-2  = caramel
+    chart-3  = latte
+    chart-4  = coffee
+    chart-5  = cream
+
+  Sidebar palette:
+    sidebar                  = espresso
+    sidebar-foreground        = cream
+    sidebar-primary           = gold
+    sidebar-primary-foreground = espresso
+    sidebar-accent            = coffee
+    sidebar-accent-foreground  = cream
+    sidebar-border            = oklch(0.3 0.03 50 / 60%)
+    sidebar-ring              = gold
+
+----------------------------------------------------------------
+ 3. GRADIENTS & EFFECTS
+----------------------------------------------------------------
+  --gradient-hero:
+    radial-gradient(ellipse at 20% 20%, oklch(0.28 0.05 45 / 0.9), transparent 55%),
+    radial-gradient(ellipse at 85% 60%, oklch(0.35 0.08 60 / 0.55), transparent 60%),
+    linear-gradient(180deg, var(--espresso), oklch(0.12 0.02 40));
+
+  --gradient-gold:
+    linear-gradient(135deg, var(--gold-soft), var(--gold) 45%, var(--caramel));
+
+  --shadow-luxury:
+    0 30px 80px -20px oklch(0 0 0 / 0.6), 0 0 0 1px oklch(0.4 0.06 70 / 0.15);
+
+  --shadow-glow:
+    0 0 60px -10px oklch(0.78 0.13 82 / 0.45);
+
+  --glass-panel (utility):
+    background: oklch(0.2 0.03 45 / 0.55);
+    backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid oklch(0.6 0.08 75 / 0.18);
+
+  Text selection:
+    background: gold, color: espresso
+
+----------------------------------------------------------------
+ 4. TYPOGRAPHY & FONTS
+----------------------------------------------------------------
+  Fonts loaded via Google Fonts (src/styles.css line 1):
+    https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1
+      &family=Fira+Sans:wght@300;400;500;600;700&display=swap
+
+  FONT ROLE       FAMILY / STACK                               WEIGHTS / STYLES
+  -------------  -------------------------------------------  ----------------------
+  Display font   "DM Serif Display", ui-serif, Georgia, serif   Regular & Italic (ital@0;1)
+  Body / Sans    "Fira Sans", ui-sans-serif, system-ui, sans    300, 400, 500, 600, 700
+
+  Tailwind theme tokens:
+    --font-display  = "DM Serif Display", ui-serif, Georgia, serif
+    --font-sans     = "Fira Sans", ui-sans-serif, system-ui, sans-serif
+
+  Application rules (src/styles.css @layer base):
+    - html { font-family: var(--font-sans); }      → Fira Sans is the default
+    - body { font-family: var(--font-sans);
+             font-feature-settings: "ss01", "ss02";
+             -webkit-font-smoothing: antialiased; }
+    - h1–h6, .font-display { font-family: var(--font-display);
+             letter-spacing: -0.01em; }            → DM Serif Display for headings
+    - button, input, textarea, select { font-family: var(--font-sans); }
+
+  Common text utilities used in components:
+    - font-display         → switches to DM Serif Display
+    - uppercase             → tracking-[0.2em] / tracking-[0.25em] for eyebrow labels
+    - text-gold-gradient    → gold gradient applied via background-clip:text
+
+----------------------------------------------------------------
+ 5. RADIUS & SPACING TOKENS
+----------------------------------------------------------------
+  Base radius: --radius = 0.75rem (12px)
+
+  Token      Value
+  --------   ----------------
+  radius-sm  calc(--radius - 4px)   = 8px
+  radius-md  calc(--radius - 2px)   = 10px
+  radius-lg  --radius                = 12px
+  radius-xl  calc(--radius + 4px)   = 16px
+  radius-2xl calc(--radius + 8px)   = 20px
+  radius-3xl calc(--radius + 12px)  = 24px
+  radius-4xl calc(--radius + 16px)  = 28px
+
+================================================================
+ END OF DESIGN SYSTEM
+================================================================
