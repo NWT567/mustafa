@@ -22,7 +22,7 @@ function ContactPage() {
             <div className="mt-8 max-w-xl overflow-hidden rounded-2xl border border-border bg-background/80 shadow-luxury">
               <iframe
                 title="Mustafa Coffee House location map"
-                src="https://www.google.com/maps?q=2509%20W%20Golf%20Rd%2C%20Hoffman%20Estates%2C%20IL%2060169&output=embed"
+                src="https://www.google.com/maps?q=Mustafa%20Coffee%20House%2C%202509%20W%20Golf%20Rd%2C%20Hoffman%20Estates%2C%20IL%2060169&z=18&output=embed"
                 className="h-[210px] w-full border-0 sm:h-[240px] lg:h-[260px]"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -34,7 +34,7 @@ function ContactPage() {
                   <div className="mt-1 text-xs text-muted-foreground sm:text-sm">2509 W Golf Rd, Hoffman Estates, IL 60169</div>
                 </div>
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=2509%20W%20Golf%20Rd%2C%20Hoffman%20Estates%2C%20IL%2060169"
+                  href="https://www.google.com/maps?q=Mustafa%20Coffee%20House%2C%202509%20W%20Golf%20Rd%2C%20Hoffman%20Estates%2C%20IL%2060169&z=18"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso shadow-glow"

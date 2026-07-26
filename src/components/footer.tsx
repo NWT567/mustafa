@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, MapPin, Star } from "lucide-react";
-import { Logo } from "@/components/logo";
 
 export function SiteFooter() {
   return (
@@ -10,8 +9,17 @@ export function SiteFooter() {
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 py-14 sm:px-8 lg:grid-cols-[1.25fr_1fr_1fr] lg:py-16">
         <div>
-          <Link to="/" className="inline-flex rounded-2xl border border-background/65 bg-background/80 px-5 py-4 shadow-[0_18px_50px_rgba(64,34,20,0.14)] backdrop-blur-md">
-            <Logo showWordmark className="h-14 w-auto sm:h-16" />
+          <Link
+            to="/"
+            className="inline-flex rounded-2xl border border-background/65 bg-background px-6 py-4 shadow-[0_18px_50px_rgba(64,34,20,0.14)]"
+          >
+            <img
+              src="/mustafa-logo.webp"
+              alt="Mustafa Coffee House"
+              className="h-14 w-auto object-contain sm:h-16"
+              loading="eager"
+              decoding="async"
+            />
           </Link>
           <p className="mt-6 max-w-sm text-sm leading-7 text-espresso/78">
             A luxury coffee house crafted for the slow moments. Open every day,

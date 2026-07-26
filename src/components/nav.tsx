@@ -35,7 +35,7 @@ export function SiteNav({
       <header className="fixed inset-x-0 top-0 z-40">
         <div className="mx-auto mt-4 grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full glass-panel px-4 py-3 shadow-luxury sm:px-6 lg:px-8">
           <Link to="/" className="flex min-w-0 items-center gap-2">
-            <Logo showWordmark />
+            <Logo showWordmark className="h-11 w-auto max-w-[13rem] sm:h-12 lg:h-14" />
           </Link>
           <nav className="hidden items-center justify-center gap-7 text-sm text-muted-foreground lg:flex">
             {links.map((l) => (
@@ -92,7 +92,7 @@ export function SiteNav({
           className={`absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col gap-8 border-l border-border bg-gradient-to-b from-background via-card to-muted p-6 shadow-luxury transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"}`}
         >
           <div className="flex items-center justify-between">
-            <Logo showWordmark />
+            <Logo showWordmark className="h-11 w-auto max-w-[13rem] sm:h-12" />
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -150,4 +150,3 @@ export function SiteNav({
     </>
   );
 }
-

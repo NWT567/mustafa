@@ -3,7 +3,6 @@ import { useState } from "react";
 import { z } from "zod";
 import { ArrowUpRight, ChevronLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { SiteFooter } from "@/components/footer";
 import loginShopImg from "../../MUSTAFA PICTURES/1ST/_MG_0039.jpg";
 
 export const Route = createFileRoute("/login")({
@@ -31,14 +30,15 @@ function LoginPage() {
         <Link to="/" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-espresso shadow-glow transition hover:brightness-110">
           <ChevronLeft className="h-4 w-4" /> Back to cafe
         </Link>
-        <Link to="/" className="flex max-w-[42vw] cursor-pointer items-center justify-end gap-2 sm:max-w-none"><Logo showWordmark className="h-10 w-auto max-w-[10rem] sm:h-12 sm:max-w-[13rem] lg:h-14" /></Link>
+        <Link to="/" className="hidden cursor-pointer items-center justify-end gap-2 xl:flex">
+          <Logo showWordmark className="h-9 w-auto max-w-[9rem] lg:h-10 lg:max-w-[10rem] xl:h-12 xl:max-w-[13rem]" />
+        </Link>
       </header>
 
       <div className="grid min-h-screen flex-1 grid-cols-1 lg:grid-cols-2">
         <LeftPanel />
         <RightPanel mode={mode} setMode={setMode} />
       </div>
-      <SiteFooter />
     </div>
   );
 }
@@ -56,7 +56,7 @@ function LeftPanel() {
       ))}
       <div className="relative z-10 flex h-full flex-col justify-center p-14">
         <div className="mx-auto flex w-full max-w-md flex-col items-center rounded-[2rem] border border-background/15 bg-background/20 px-8 py-10 text-center shadow-luxury backdrop-blur-md">
-          <Logo showWordmark className="h-24 sm:h-28" />
+          <Logo showWordmark className="h-20 w-auto max-w-[11rem] sm:h-24 sm:max-w-[13rem]" />
           <div className="mt-5 text-center">
             <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-gold-soft/90">
               Welcome to our coffee house
