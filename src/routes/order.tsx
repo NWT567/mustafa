@@ -1,5 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import {
   ArrowUpRight,
   Check,
@@ -345,14 +352,17 @@ function StoreSelectorSection({
           <div>
             {viewMode === "list" ? (
               <div className="grid gap-4">
-                {stores.map((store) => (
-                  <StoreCard
-                    key={store.id}
-                    store={store}
-                    selected={store.id === selectedStoreId}
-                    onSelect={() => onSelectStore(store.id)}
-                  />
-                ))}
+                <div className="grid gap-4">
+                  {stores.map((store) => (
+                    <StoreCard
+                      key={store.id}
+                      store={store}
+                      selected={store.id === selectedStoreId}
+                      onSelect={() => onSelectStore(store.id)}
+                    />
+                  ))}
+                </div>
+                <CoffeeDripScene />
               </div>
             ) : (
               <StoreMapView
@@ -528,6 +538,58 @@ function StoreMapView({
         </div>
       </div>
     </div>
+  );
+}
+
+function CoffeeDripScene() {
+  const drops = [
+    { left: "18%", delay: "0s", duration: "2.6s", scale: 0.95 },
+    { left: "32%", delay: "0.35s", duration: "2.9s", scale: 1.05 },
+    { left: "50%", delay: "0.7s", duration: "2.7s", scale: 1 },
+    { left: "66%", delay: "0.2s", duration: "3.05s", scale: 0.9 },
+    { left: "80%", delay: "0.55s", duration: "2.85s", scale: 1.08 },
+  ];
+
+  return (
+    <section className="relative min-h-[24rem] overflow-hidden rounded-[2rem] border border-border bg-[linear-gradient(180deg,oklch(0.99_0.01_85),oklch(0.96_0.01_85)_45%,oklch(0.94_0.02_80))] p-3 shadow-luxury sm:p-4 lg:min-h-[30rem]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,oklch(0.98_0.04_70/0.65),transparent_36%),radial-gradient(circle_at_80%_30%,oklch(0.9_0.08_62/0.3),transparent_30%),radial-gradient(circle_at_50%_100%,oklch(0.76_0.13_82/0.18),transparent_42%)]" />
+      <div className="relative flex h-full items-center justify-center">
+        <div className="relative h-[22rem] w-full max-w-[34rem] sm:h-[24rem] lg:h-[28rem] lg:max-w-[42rem]">
+          <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_50%_0%,oklch(0.8_0.12_82/0.35),transparent_60%)]" />
+          <div className="absolute inset-x-10 top-6 h-12 rounded-full bg-gold-soft/25 blur-2xl" />
+          <div className="absolute left-1/2 top-5 h-48 w-64 -translate-x-1/2 rounded-[1.9rem] border border-border bg-[linear-gradient(180deg,oklch(0.99_0.01_85),oklch(0.92_0.03_78))] shadow-luxury sm:h-52 sm:w-72 lg:h-60 lg:w-80">
+            <div className="absolute left-1/2 top-5 h-6 w-36 -translate-x-1/2 rounded-full bg-espresso/85" />
+            <div className="absolute left-1/2 top-11 h-16 w-40 -translate-x-1/2 rounded-b-[1.2rem] border-x border-b border-border bg-background/80 sm:w-44 lg:w-48">
+              <div className="absolute inset-x-3 top-2 h-1.5 rounded-full bg-gold-soft/80" />
+              <div className="absolute left-1/2 top-5 h-8 w-8 -translate-x-1/2 rounded-full border-2 border-gold-ink/50 bg-gradient-to-br from-gold-soft to-caramel shadow-glow" />
+            </div>
+            <div className="absolute left-1/2 top-[5.9rem] h-8 w-20 -translate-x-1/2 rounded-b-full border border-border bg-gradient-to-b from-espresso to-coffee shadow-[0_16px_24px_-18px_oklch(0_0_0/0.35)]" />
+            <div className="coffee-drop-window absolute left-1/2 top-[8.2rem] h-40 w-40 -translate-x-1/2 overflow-hidden rounded-[1.35rem] border border-border/70 bg-[linear-gradient(180deg,oklch(0.98_0.01_85),oklch(0.94_0.02_80))] sm:h-44 sm:w-44 lg:h-48 lg:w-48">
+              {drops.map((drop, index) => (
+                <span
+                  key={index}
+                  className="coffee-drop absolute top-[-18%] block h-4 w-2.5 rounded-full bg-gradient-to-b from-caramel via-coffee to-espresso shadow-[0_6px_14px_-8px_oklch(0_0_0/0.5)] sm:h-4.5 sm:w-3"
+                  style={
+                    {
+                      left: drop.left,
+                      animationDelay: drop.delay,
+                      animationDuration: drop.duration,
+                      "--drop-scale": drop.scale,
+                    } as CSSProperties & { "--drop-scale": number }
+                  }
+                />
+              ))}
+              <div className="absolute bottom-4 left-1/2 h-14 w-28 -translate-x-1/2 rounded-full bg-gradient-to-b from-gold-soft/30 to-espresso/10 blur-[2px]" />
+              <div className="absolute left-1/2 top-[5.15rem] h-10 w-10 -translate-x-1/2 rounded-[0.7rem] border border-border bg-[linear-gradient(180deg,oklch(0.992_0.01_85),oklch(0.962_0.01_85))] shadow-[0_8px_20px_-12px_oklch(0_0_0/0.3)]">
+                <div className="absolute inset-x-2 top-1.5 h-1 rounded-full bg-gold-soft/70" />
+                <div className="absolute left-1/2 top-3.5 h-4 w-4 -translate-x-1/2 rounded-full border border-gold-ink/40 bg-gradient-to-br from-gold-soft/70 to-caramel/80" />
+                <div className="absolute bottom-0 left-1/2 h-2.5 w-7 -translate-x-1/2 rounded-t-[0.9rem] bg-gradient-to-b from-espresso to-coffee" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -2244,7 +2306,7 @@ function VideoHero({
               muted
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
               className="h-full w-full object-cover"
               data-parallax
               data-parallax-speed="0.08"

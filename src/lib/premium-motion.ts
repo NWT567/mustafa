@@ -226,19 +226,26 @@ async function install() {
   (window as PremiumWindow).__pmApply = applyToRoute;
 }
 
-export function usePremiumMotion() {
+export function usePremiumMotion(enabled = true) {
   const location = useRouterState({ select: (s) => s.location.pathname });
   useEffect(() => {
+    if (!enabled) return;
+
     if (!installed) {
       installed = true;
-      install();
+      const startInstall = () => {
+        void install();
+      };
+
+      const timer = window.setTimeout(startInstall, 1200);
+      return () => window.clearTimeout(timer);
     } else {
       // Re-run selectors for new route content
       requestAnimationFrame(() => {
         (window as PremiumWindow).__pmApply?.();
       });
     }
-  }, [location]);
+  }, [enabled, location]);
 
   useEffect(() => {
     return () => {
