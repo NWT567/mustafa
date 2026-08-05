@@ -14,7 +14,7 @@ import {
 import { SiteNav } from "@/components/nav";
 import { SiteFooter } from "@/components/footer";
 import heroCafeImg from "../../MUSTAFA PICTURES/1ST/_MG_0022.jpg";
-import ritualVideo from "../assets/MUSTAFA VIDEOS/VIDEO VIRAL COLD BREW.mp4";
+import signatureVideo from "../assets/MUSTAFA VIDEOS/VIDEO VIRAL COLD BREW.mp4";
 import galleryCounterImg from "@/assets/Gallery/22.jpg";
 import galleryPourImg from "@/assets/Gallery/_71A0833.jpg";
 import galleryLatteImg from "@/assets/Gallery/_MG_0374.jpg";
@@ -61,7 +61,7 @@ function Hero() {
             Meets <em className="italic text-gold-gradient">Hospitality</em>
           </h1>
           <p className="mt-8 max-w-xl text-base text-muted-foreground sm:text-lg">
-            Slow-roasted beans, hand-poured rituals, and quiet corners built for
+            Slow-roasted beans, hand-poured craft, and quiet corners built for
             the space between sips. A coffee house designed like a hotel lobby,
             served like a private tasting.
           </p>
@@ -218,26 +218,29 @@ function Marquee() {
     "Single Origin",
     "Slow Roasted",
     "House Baked",
-    "Yemeni Heritage",
+    "MCH Signature Tree",
     "Rewards Program",
     "Open 24 Hrs",
   ];
   return (
-    <div className="relative overflow-hidden border-y border-gold/20 bg-gradient-to-r from-cream via-latte/30 to-background py-4 sm:py-5">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent sm:w-24" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent sm:w-24" />
-      <div className="flex w-max animate-marquee-slide gap-8 whitespace-nowrap font-display text-xl text-foreground/70 sm:gap-14 sm:text-3xl">
+    <div className="relative overflow-hidden border-y border-gold/20 bg-[linear-gradient(90deg,oklch(0.985_0.01_85),oklch(0.96_0.015_82)_45%,oklch(0.985_0.01_85))] py-4 sm:py-5">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-background to-transparent sm:w-28" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-background to-transparent sm:w-28" />
+      <div className="flex w-max animate-marquee-slide items-center gap-4 whitespace-nowrap px-4 font-display text-sm text-foreground/72 sm:gap-5 sm:px-8 sm:text-lg lg:text-xl">
         {[...items, ...items, ...items].map((t, i) => (
-          <span key={i} className="flex shrink-0 items-center gap-8 sm:gap-14">
-            {t}
+          <span
+            key={i}
+            className="flex shrink-0 items-center gap-4 rounded-full border border-border/70 bg-background/80 px-4 py-2 shadow-sm backdrop-blur sm:gap-5 sm:px-5"
+          >
+            <span className="uppercase tracking-[0.2em] text-gold-ink">{t}</span>
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
           </span>
         ))}
       </div>
       <style>{`
         @keyframes marquee-slide { from { transform: translateX(0); } to { transform: translateX(-33.3333%); } }
-        .animate-marquee-slide { animation: marquee-slide 28s linear infinite; }
-        @media (max-width: 640px) { .animate-marquee-slide { animation-duration: 20s; } }
+        .animate-marquee-slide { animation: marquee-slide 30s linear infinite; }
+        @media (max-width: 640px) { .animate-marquee-slide { animation-duration: 22s; } }
       `}</style>
     </div>
   );
@@ -254,7 +257,7 @@ function SignatureSection() {
           <div className="relative min-h-[32rem] overflow-hidden rounded-[2.5rem] border border-border bg-card shadow-luxury">
             <video
               className="absolute inset-0 h-full w-full object-cover"
-              src={ritualVideo}
+              src={signatureVideo}
               autoPlay
               muted
               loop
@@ -264,7 +267,7 @@ function SignatureSection() {
             <div className="absolute inset-0 bg-gradient-to-br from-espresso/78 via-espresso/45 to-background/25" />
             <div className="relative z-10 flex h-full flex-col justify-between p-8 sm:p-10">
               {/* <div className="inline-flex w-fit rounded-full border border-background/20 bg-background/88 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-espresso shadow-sm">
-                The Ritual
+                The Craft
               </div> */}
               <h2 className="max-w-sm font-display text-5xl leading-[0.95] text-background drop-shadow-[0_3px_12px_rgba(0,0,0,0.65)] sm:text-6xl">
                 Twelve <em className="italic text-gold-soft">seconds</em> of
@@ -276,7 +279,7 @@ function SignatureSection() {
         <div className="col-span-12 lg:col-span-7 lg:col-start-6">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-[11px] uppercase tracking-[0.25em] text-gold-ink">
             <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
-            The Ritual
+            The Craft
           </div>
           <p className="text-lg text-muted-foreground">
             Our baristas train for two years before touching a customer's cup.
@@ -479,8 +482,6 @@ const GALLERY_PAIRS = [
 ] as const;
 
 function GallerySection() {
-  const [flipped, setFlipped] = useState<Record<number, boolean>>({});
-
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-cream to-latte/20 px-5 py-24 sm:px-8 lg:py-28">
       <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_1px_1px,oklch(0.76_0.13_82/0.18)_1px,transparent_0)] [background-size:34px_34px]" />
@@ -488,34 +489,20 @@ function GallerySection() {
       <div className="relative mx-auto max-w-7xl">
         <div className="max-w-4xl">
           <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
-            - Gallery
+            - Most Selling Products
           </div>
           <h2 className="mt-3 max-w-4xl font-display text-4xl leading-[0.95] text-foreground sm:text-5xl lg:text-6xl">
-            Tap a card and <em className="italic text-gold-gradient">swap</em> the front.
+            Most selling products, ready to browse at a glance.
           </h2>
           <p className="mt-5 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-            A layered visual stack of Mustafa favorites. Tap any card to bring the paired drink or dessert forward.
+            A polished selection of the house favorites, using only real images from the studio and menu folders.
           </p>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 justify-items-center gap-7 sm:grid-cols-2 lg:grid-cols-5 lg:items-end lg:gap-6 lg:pb-12">
-          {GALLERY_PAIRS.map((pair, index) => {
-            const isFlipped = flipped[index] ?? false;
-            return (
-              <GalleryCard
-                key={pair.frontLabel}
-                pair={pair}
-                index={index}
-                isFlipped={isFlipped}
-                onToggle={() =>
-                  setFlipped((current) => ({
-                    ...current,
-                    [index]: !current[index],
-                  }))
-                }
-              />
-            );
-          })}
+        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {GALLERY_PAIRS.map((pair, index) => (
+            <GalleryCard key={pair.frontLabel} pair={pair} index={index} />
+          ))}
         </div>
       </div>
     </section>
@@ -525,71 +512,48 @@ function GallerySection() {
 function GalleryCard({
   pair,
   index,
-  isFlipped,
-  onToggle,
 }: {
   pair: (typeof GALLERY_PAIRS)[number];
   index: number;
-  isFlipped: boolean;
-  onToggle: () => void;
 }) {
-  const offsets = ["lg:translate-y-0", "lg:translate-y-8", "lg:-translate-y-4", "lg:translate-y-8", "lg:translate-y-0"];
+  const offsets = [
+    "lg:translate-y-0",
+    "lg:translate-y-8",
+    "lg:-translate-y-4",
+    "lg:translate-y-8",
+    "lg:translate-y-0",
+  ];
 
   return (
-    <button
-      type="button"
-      onClick={onToggle}
-      className={`group relative h-[24rem] w-full max-w-[16rem] text-left outline-none [perspective:1500px] sm:h-[25rem] sm:max-w-[17rem] lg:h-[23rem] lg:max-w-none ${offsets[index] ?? ""}`}
-      aria-pressed={isFlipped}
+    <article
+      className={`group overflow-hidden rounded-[2rem] border border-border bg-background shadow-luxury transition duration-300 hover:-translate-y-1 hover:shadow-glow ${offsets[index] ?? ""}`}
+      data-parallax
+      data-parallax-speed={String(0.06 + index * 0.015)}
     >
-      <div
-        className="relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] group-focus-visible:ring-2 group-focus-visible:ring-gold group-focus-visible:ring-offset-4 group-focus-visible:ring-offset-background"
-        style={{ transform: `rotateY(${isFlipped ? 180 : 0}deg)` }}
-        data-parallax
-        data-parallax-speed={String(0.06 + index * 0.015)}
-      >
-        <GalleryFace image={pair.front} label={pair.frontLabel} backLabel={pair.backLabel} front />
-        <GalleryFace image={pair.back} label={pair.backLabel} backLabel={pair.frontLabel} />
-      </div>
-    </button>
-  );
-}
-
-function GalleryFace({
-  image,
-  label,
-  backLabel,
-  front = false,
-}: {
-  image: string;
-  label: string;
-  backLabel: string;
-  front?: boolean;
-}) {
-  return (
-    <div
-      className="absolute inset-0 overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-luxury [backface-visibility:hidden]"
-      style={{ transform: front ? "translateZ(0px)" : "rotateY(180deg)" }}
-    >
-      <img
-        src={image}
-        alt={`${label} product card`}
-        className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-        loading="lazy"
-      />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/78 via-black/18 to-black/8" />
-      <div className="absolute inset-x-0 bottom-0 p-5 text-left">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-background/88 drop-shadow-[0_1px_4px_rgba(0,0,0,0.75)]">
-          Tap to turn
-        </div>
-        <div className="mt-2 font-display text-2xl leading-none text-background drop-shadow-[0_2px_8px_rgba(0,0,0,0.75)] sm:text-3xl lg:text-2xl">
-          {label}
-        </div>
-        <div className="mt-2 text-xs font-medium leading-5 text-background/86 drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)] sm:text-sm lg:text-xs">
-          Back: {backLabel}
+      <div className="relative aspect-[4/5] overflow-hidden">
+        <img
+          src={pair.front}
+          alt={pair.frontLabel}
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/72 via-black/14 to-black/6" />
+        <div className="absolute left-4 top-4 rounded-full border border-background/30 bg-background/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-gold-ink backdrop-blur">
+          Bestseller
         </div>
       </div>
-    </div>
+      <div className="space-y-2 p-5 text-left">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-gold-ink">
+          Most selling
+        </div>
+        <div className="font-display text-2xl leading-tight text-foreground">
+          {pair.frontLabel}
+        </div>
+        <p className="text-sm leading-6 text-muted-foreground">
+          Featured customer favorite from the Mustafa collection.
+        </p>
+      </div>
+    </article>
   );
 }
 function TeaserGrid() {
@@ -651,6 +615,3 @@ function TeaserGrid() {
     </section>
   );
 }
-
-
-

@@ -26,7 +26,7 @@ export const Route = createFileRoute("/loyalty")({
       { property: "og:title", content: "Loyalty - Mustafa Coffee House" },
       {
         property: "og:description",
-        content: "A rewards ritual worthy of the cup.",
+        content: "A rewards program worthy of the cup.",
       },
     ],
   }),
@@ -56,7 +56,7 @@ const REWARDS = [
   {
     cost: 750,
     title: "Pastry Pairing",
-    body: "Croissant + cortado ritual.",
+      body: "Croissant + cortado pairing.",
     icon: Gift,
   },
   {
@@ -113,7 +113,7 @@ function LoyaltyPage() {
         />
         <PointsInfoSection />
         <RewardsSection beans={beans} claim={claim} claimed={claimed} />
-        <RitualCTA />
+        <RewardsCTA />
       </main>
       <SiteFooter />
     </div>
@@ -146,7 +146,7 @@ function LoyaltyHero({
         <p className="mt-8 max-w-xl text-base text-muted-foreground sm:text-lg">
           Earn a bean for every cup. Climb four tiers. Unlock rewards from a
           house espresso to a private year of beans. No cards. No apps. Just the
-          ritual, remembered.
+          the moment, remembered.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <button
@@ -393,7 +393,7 @@ function RewardsSection({
   );
 }
 
-function RitualCTA() {
+function RewardsCTA() {
   const [beans, setBeans] = useState<{ id: number; x: number; d: number }[]>(
     [],
   );
@@ -427,7 +427,7 @@ function RitualCTA() {
       <div className="relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2">
         <div>
           <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
-            Join the ritual
+            Join the club
           </div>
           <h2 className="mt-3 font-display text-4xl leading-tight text-foreground sm:text-5xl">
             Start earning with your{" "}
@@ -452,7 +452,6 @@ function RitualCTA() {
     </section>
   );
 }
-
 
 
 

@@ -23,7 +23,7 @@ export const Route = createFileRoute("/reserve")({
       {
         name: "description",
         content:
-          "Reserve your quiet corner at Mustafa Coffee House. Pick your table on a live 3D floor plan, choose the hour, and confirm the ritual.",
+          "Reserve your quiet corner at Mustafa Coffee House. Pick your table on a live 3D floor plan, choose the hour, and confirm your visit.",
       },
       {
         property: "og:title",
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/reserve")({
       {
         property: "og:description",
         content:
-          "Book a table on our interactive 3D floor plan. Your ritual, your corner.",
+          "Book a table on our interactive 3D floor plan. Your visit, your corner.",
       },
     ],
   }),
@@ -146,7 +146,7 @@ const OCCASIONS = [
   "Business",
   "Birthday",
   "Friends",
-  "Solo ritual",
+  "Solo visit",
 ];
 
 function ReservePage() {
@@ -588,4 +588,3 @@ function FloorPlan({
     </div>
   );
 }
-

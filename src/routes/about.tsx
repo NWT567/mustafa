@@ -20,7 +20,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Meet the roasters, the ritual, and the room behind Mustafa Coffee House.",
+          "Meet the roasters, the craft, and the room behind Mustafa Coffee House.",
       },
       { property: "og:title", content: "About - Mustafa Coffee House" },
       {
@@ -71,7 +71,7 @@ function AboutHero() {
     >
       <div className="lg:col-span-7">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-[11px] uppercase tracking-[0.25em] text-gold-ink">
-          <Sparkles className="h-3 w-3" /> Open 24 / 7 ? Locally owned
+          <Sparkles className="h-3 w-3" /> Open 24 / 7 Locally owned
         </div>
         <h1 className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] tracking-tight text-foreground">
           Coffee, tea, <br />
@@ -421,7 +421,6 @@ function PromiseSection() {
     </section>
   );
 }
-
 
 
 

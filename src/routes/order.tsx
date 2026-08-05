@@ -4,7 +4,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type ReactNode,
 } from "react";
 import {
@@ -54,7 +53,7 @@ export const Route = createFileRoute("/order")({
       {
         name: "description",
         content:
-          "Order signature espresso, pour-overs, boba, and pastries ahead. Skip the line - your table, your ritual.",
+          "Order signature espresso, pour-overs, boba, and pastries ahead. Skip the line - your table, your time.",
       },
       { property: "og:title", content: "Order Ahead - Mustafa Coffee House" },
       {
@@ -348,21 +347,18 @@ function StoreSelectorSection({
           </div>
         </div>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1.3fr_0.95fr]">
-          <div>
+        <div className="mt-8 grid gap-8 lg:grid-cols-[1.3fr_0.95fr] lg:items-stretch">
+          <div className="self-stretch">
             {viewMode === "list" ? (
-              <div className="grid gap-4">
-                <div className="grid gap-4">
-                  {stores.map((store) => (
-                    <StoreCard
-                      key={store.id}
-                      store={store}
-                      selected={store.id === selectedStoreId}
-                      onSelect={() => onSelectStore(store.id)}
-                    />
-                  ))}
-                </div>
-                <CoffeeDripScene />
+              <div className="grid h-full gap-4">
+                {stores.map((store) => (
+                  <StoreCard
+                    key={store.id}
+                    store={store}
+                    selected={store.id === selectedStoreId}
+                    onSelect={() => onSelectStore(store.id)}
+                  />
+                ))}
               </div>
             ) : (
               <StoreMapView
@@ -394,13 +390,13 @@ function StoreCard({
 }) {
   return (
     <article
-      className={`rounded-[1.75rem] border p-5 transition ${
+      className={`flex h-full min-h-[11rem] flex-col rounded-[1.75rem] border p-5 transition ${
         selected
           ? "border-gold/70 bg-gold-soft/10 shadow-glow"
           : "border-border bg-background/90 hover:border-gold/40 hover:shadow-luxury"
       }`}
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="text-[11px] uppercase tracking-[0.28em] text-gold-ink">
             {store.locationName}
@@ -541,58 +537,6 @@ function StoreMapView({
   );
 }
 
-function CoffeeDripScene() {
-  const drops = [
-    { left: "18%", delay: "0s", duration: "2.6s", scale: 0.95 },
-    { left: "32%", delay: "0.35s", duration: "2.9s", scale: 1.05 },
-    { left: "50%", delay: "0.7s", duration: "2.7s", scale: 1 },
-    { left: "66%", delay: "0.2s", duration: "3.05s", scale: 0.9 },
-    { left: "80%", delay: "0.55s", duration: "2.85s", scale: 1.08 },
-  ];
-
-  return (
-    <section className="relative min-h-[24rem] overflow-hidden rounded-[2rem] border border-border bg-[linear-gradient(180deg,oklch(0.99_0.01_85),oklch(0.96_0.01_85)_45%,oklch(0.94_0.02_80))] p-3 shadow-luxury sm:p-4 lg:min-h-[30rem]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,oklch(0.98_0.04_70/0.65),transparent_36%),radial-gradient(circle_at_80%_30%,oklch(0.9_0.08_62/0.3),transparent_30%),radial-gradient(circle_at_50%_100%,oklch(0.76_0.13_82/0.18),transparent_42%)]" />
-      <div className="relative flex h-full items-center justify-center">
-        <div className="relative h-[22rem] w-full max-w-[34rem] sm:h-[24rem] lg:h-[28rem] lg:max-w-[42rem]">
-          <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_50%_0%,oklch(0.8_0.12_82/0.35),transparent_60%)]" />
-          <div className="absolute inset-x-10 top-6 h-12 rounded-full bg-gold-soft/25 blur-2xl" />
-          <div className="absolute left-1/2 top-5 h-48 w-64 -translate-x-1/2 rounded-[1.9rem] border border-border bg-[linear-gradient(180deg,oklch(0.99_0.01_85),oklch(0.92_0.03_78))] shadow-luxury sm:h-52 sm:w-72 lg:h-60 lg:w-80">
-            <div className="absolute left-1/2 top-5 h-6 w-36 -translate-x-1/2 rounded-full bg-espresso/85" />
-            <div className="absolute left-1/2 top-11 h-16 w-40 -translate-x-1/2 rounded-b-[1.2rem] border-x border-b border-border bg-background/80 sm:w-44 lg:w-48">
-              <div className="absolute inset-x-3 top-2 h-1.5 rounded-full bg-gold-soft/80" />
-              <div className="absolute left-1/2 top-5 h-8 w-8 -translate-x-1/2 rounded-full border-2 border-gold-ink/50 bg-gradient-to-br from-gold-soft to-caramel shadow-glow" />
-            </div>
-            <div className="absolute left-1/2 top-[5.9rem] h-8 w-20 -translate-x-1/2 rounded-b-full border border-border bg-gradient-to-b from-espresso to-coffee shadow-[0_16px_24px_-18px_oklch(0_0_0/0.35)]" />
-            <div className="coffee-drop-window absolute left-1/2 top-[8.2rem] h-40 w-40 -translate-x-1/2 overflow-hidden rounded-[1.35rem] border border-border/70 bg-[linear-gradient(180deg,oklch(0.98_0.01_85),oklch(0.94_0.02_80))] sm:h-44 sm:w-44 lg:h-48 lg:w-48">
-              {drops.map((drop, index) => (
-                <span
-                  key={index}
-                  className="coffee-drop absolute top-[-18%] block h-4 w-2.5 rounded-full bg-gradient-to-b from-caramel via-coffee to-espresso shadow-[0_6px_14px_-8px_oklch(0_0_0/0.5)] sm:h-4.5 sm:w-3"
-                  style={
-                    {
-                      left: drop.left,
-                      animationDelay: drop.delay,
-                      animationDuration: drop.duration,
-                      "--drop-scale": drop.scale,
-                    } as CSSProperties & { "--drop-scale": number }
-                  }
-                />
-              ))}
-              <div className="absolute bottom-4 left-1/2 h-14 w-28 -translate-x-1/2 rounded-full bg-gradient-to-b from-gold-soft/30 to-espresso/10 blur-[2px]" />
-              <div className="absolute left-1/2 top-[5.15rem] h-10 w-10 -translate-x-1/2 rounded-[0.7rem] border border-border bg-[linear-gradient(180deg,oklch(0.992_0.01_85),oklch(0.962_0.01_85))] shadow-[0_8px_20px_-12px_oklch(0_0_0/0.3)]">
-                <div className="absolute inset-x-2 top-1.5 h-1 rounded-full bg-gold-soft/70" />
-                <div className="absolute left-1/2 top-3.5 h-4 w-4 -translate-x-1/2 rounded-full border border-gold-ink/40 bg-gradient-to-br from-gold-soft/70 to-caramel/80" />
-                <div className="absolute bottom-0 left-1/2 h-2.5 w-7 -translate-x-1/2 rounded-t-[0.9rem] bg-gradient-to-b from-espresso to-coffee" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function StoreDetailScreen({
   store,
   onSelectStore,
@@ -601,158 +545,119 @@ function StoreDetailScreen({
   onSelectStore: () => void;
 }) {
   return (
-    <aside className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-luxury">
-      <div className="relative">
+    <aside className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-border bg-card shadow-luxury">
+      <div className="relative flex-1 min-h-[28rem]">
         <img
           src={store.interiorImage}
           alt={`${store.locationName} interior`}
-          className="h-64 w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-background/40 bg-background/85 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-espresso backdrop-blur">
           <MapPin className="h-3.5 w-3.5 text-gold-ink" />
-          Store detail screen
+          Selected store
         </div>
-      </div>
-
-      <div className="space-y-6 px-5 py-6 sm:px-6">
-        <div>
+        <div className="absolute inset-x-5 bottom-5 rounded-[1.5rem] border border-background/35 bg-background/88 p-4 backdrop-blur-md">
           <div className="text-[11px] uppercase tracking-[0.28em] text-gold-ink">
             {store.locationName}
           </div>
           <h3 className="mt-1 font-display text-3xl text-foreground">
             {store.cityState}
           </h3>
-          <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
-            <span className="rounded-full border border-border bg-background px-3 py-1">
-              {store.distance}
-            </span>
-            <span className="rounded-full border border-border bg-background px-3 py-1">
-              {store.isOpen ? "Open now" : "Closed now"}
-            </span>
-            {store.open24Hours && (
-              <span className="rounded-full border border-gold/40 bg-gold-soft/40 px-3 py-1 text-gold-ink">
-                24-hour
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <DetailBlock
-            label="Store hours"
-            value={store.hours}
-            icon={<Clock3 className="h-4 w-4" />}
-          />
-          <DetailBlock
-            label="Phone"
-            value={[store.phone]}
-            icon={<Phone className="h-4 w-4" />}
-            link={`tel:${store.phone}`}
-          />
-        </div>
-
-        <DetailBlock
-          label="Address"
-          value={store.addressLines}
-          icon={<MapPin className="h-4 w-4" />}
-          link={store.directionsUrl}
-          linkLabel="Open directions"
-        />
-
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-ink">
-            Pickup options
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {store.pickupOptions.map((option) => (
-              <span
-                key={option}
-                className="rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground"
-              >
-                {option}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <DetailBlock
-            label="Current preparation time"
-            value={[store.prepTime]}
-            icon={<Clock3 className="h-4 w-4" />}
-          />
-          <DetailBlock
-            label="Directions"
-            value={["Walk-in and pickup ready"]}
-            icon={<Navigation className="h-4 w-4" />}
-            link={store.directionsUrl}
-            linkLabel="Get directions"
-          />
-        </div>
-
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-ink">
-            Amenities
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {store.amenities.map((amenity) => (
-              <span
-                key={amenity}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-muted-foreground"
-              >
-                <Check className="h-3 w-3 text-gold-ink" />
-                {amenity}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-ink">
-            Popular items
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {store.popularItems.map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-border bg-gold-soft/25 px-3 py-1 text-xs text-espresso"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-[1.5rem] border border-border bg-background/85 p-4">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-ink">
-            Store notes
-          </div>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            {store.notes}
+          <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+            A quiet, polished pickup view that keeps the right side clean while
+            the list on the left carries the practical details.
           </p>
         </div>
+      </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <a
-            href={store.directionsUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-gold hover:text-gold-ink"
-          >
-            <Navigation className="h-3.5 w-3.5" />
-            Directions
-          </a>
-          <button
-            type="button"
-            onClick={onSelectStore}
-            className="inline-flex flex-1 items-center justify-center rounded-full bg-gradient-to-br from-gold-soft to-caramel px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow transition hover:brightness-110"
-          >
-            Select this store
-          </button>
-        </div>
+      <div className="grid gap-3 border-t border-border bg-background/95 p-4 sm:grid-cols-2 sm:p-5">
+        <a
+          href={store.directionsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-gold hover:text-gold-ink"
+        >
+          <Navigation className="h-3.5 w-3.5" />
+          Directions
+        </a>
+        <button
+          type="button"
+          onClick={onSelectStore}
+          className="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-gold-soft to-caramel px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow transition hover:brightness-110"
+        >
+          Select this store
+        </button>
       </div>
     </aside>
+  );
+}
+
+function FloatingMenuButton({
+  open,
+  active,
+  onToggle,
+  onSelect,
+}: {
+  open: boolean;
+  active: SectionId | "all";
+  onToggle: () => void;
+  onSelect: (id: SectionId | "all") => void;
+}) {
+  const quickLinks: { id: SectionId | "all"; label: string }[] = [
+    { id: "all", label: "All items" },
+    ...MENU_SECTIONS_WITH_IMAGES.map((section) => ({
+      id: section.id,
+      label: section.label,
+    })),
+  ];
+
+  return (
+    <div className="fixed bottom-5 right-5 z-40 sm:bottom-6 sm:right-6">
+      <div className={`mb-3 w-[min(18rem,calc(100vw-2rem))] rounded-[1.5rem] border border-border bg-background/96 p-3 shadow-luxury backdrop-blur transition-all duration-300 ${open ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"}`}>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="text-[11px] uppercase tracking-[0.24em] text-gold-ink">
+            Quick menu
+          </div>
+          <button
+            type="button"
+            onClick={onToggle}
+            className="rounded-full border border-border px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground transition hover:border-gold hover:text-gold-ink"
+          >
+            Close
+          </button>
+        </div>
+        <div className="quick-menu-scrollbar max-h-[min(78vh,42rem)] space-y-2 overflow-y-scroll pr-2 overscroll-contain">
+          {quickLinks.map((item) => {
+            const isActive = active === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => onSelect(item.id)}
+                className={`flex w-full items-center justify-between rounded-2xl border px-3 py-2.5 text-left text-sm transition ${
+                  isActive
+                    ? "border-gold bg-gold-soft/15 text-gold-ink shadow-glow"
+                    : "border-border bg-background text-foreground hover:border-gold/40 hover:bg-gold-soft/10"
+                }`}
+              >
+                <span className="truncate">{item.label}</span>
+                <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={onToggle}
+        className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-espresso shadow-glow transition hover:brightness-110"
+      >
+        <CoffeeIcon className="h-4 w-4" />
+        Menu
+      </button>
+    </div>
   );
 }
 
@@ -1850,6 +1755,7 @@ export function OrderPage() {
   const [cartOpen, setCartOpen] = useState(false);
   const [muted, setMuted] = useState(false);
   const [placed, setPlaced] = useState(false);
+  const [floatingMenuOpen, setFloatingMenuOpen] = useState(false);
   const [selectedStoreId, setSelectedStoreId] = useState(() => {
     if (typeof window === "undefined") return STORE_LOCATIONS[0].id;
     try {
@@ -2176,6 +2082,18 @@ export function OrderPage() {
         unitPrice={currentUnitPrice}
         canAdd={canAddCurrent}
       />
+
+      <FloatingMenuButton
+        open={floatingMenuOpen}
+        active={active}
+        onToggle={() => setFloatingMenuOpen((current) => !current)}
+        onSelect={(id) => {
+          setActive(id);
+          setFloatingMenuOpen(false);
+          const target = document.getElementById(id === "all" ? "menu-start" : `menu-${id}`);
+          target?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+      />
     </div>
   );
 }
@@ -2350,7 +2268,7 @@ function VideoHero({
               Signature
             </div>
             <div className="font-display text-lg text-foreground">
-              Slow drip ritual
+              Slow drip craft
             </div>
           </div>
         </div>

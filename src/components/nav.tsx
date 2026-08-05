@@ -14,14 +14,22 @@ const LINKS: { to: string; label: string }[] = [
 export function SiteNav({
   extras,
   showSignIn = true,
+  adminMode = false,
 }: {
   extras?: ReactNode;
   showSignIn?: boolean;
+  adminMode?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const isOrderRoute = location.pathname === "/order";
   const links = LINKS;
+  const isAdminRoute = adminMode || location.pathname === "/admin";
+  const handleLogout = () => {
+    localStorage.removeItem("mchIsAdmin");
+    localStorage.removeItem("mchUserName");
+    window.location.href = "/login";
+  };
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -37,53 +45,69 @@ export function SiteNav({
           <Link to="/" className="flex min-w-0 items-center gap-2">
             <Logo showWordmark className="h-11 w-auto max-w-[13rem] sm:h-12 lg:h-14" />
           </Link>
-          <nav className="hidden items-center justify-center gap-7 text-sm text-muted-foreground lg:flex">
-            {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="transition hover:text-gold-ink"
-                activeProps={{ className: "text-gold-ink" }}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
+          {!isAdminRoute && (
+            <nav className="hidden items-center justify-center gap-7 text-sm text-muted-foreground lg:flex">
+              {links.map((l) => (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  className="transition hover:text-gold-ink"
+                  activeProps={{ className: "text-gold-ink" }}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+          )}
           <div className="flex items-center justify-end gap-2">
-            {extras}
-            {showSignIn && (
-              <Link
-                to="/login"
-                className="hidden rounded-full border border-border px-4 py-2 text-xs uppercase tracking-[0.15em] text-muted-foreground transition hover:border-gold hover:text-gold-ink sm:inline-flex"
+            {isAdminRoute ? (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-gold hover:text-gold-ink"
               >
-                Sign in
-              </Link>
+                Logout
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </button>
+            ) : (
+              <>
+                {extras}
+                {showSignIn && (
+                  <Link
+                    to="/login"
+                    className="hidden rounded-full border border-border px-4 py-2 text-xs uppercase tracking-[0.15em] text-muted-foreground transition hover:border-gold hover:text-gold-ink sm:inline-flex"
+                  >
+                    Sign in
+                  </Link>
+                )}
+                {!isOrderRoute && (
+                  <Link
+                    to="/order"
+                    className="hidden items-center gap-1.5 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-espresso shadow-glow transition hover:brightness-110 lg:inline-flex"
+                  >
+                    Order <ArrowUpRight className="h-3.5 w-3.5" />
+                  </Link>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setOpen(true)}
+                  aria-label="Open menu"
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground transition hover:border-gold hover:text-gold-ink lg:hidden"
+                >
+                  <Menu className="h-4 w-4" />
+                </button>
+              </>
             )}
-            {!isOrderRoute && (
-              <Link
-                to="/order"
-                className="hidden items-center gap-1.5 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-espresso shadow-glow transition hover:brightness-110 lg:inline-flex"
-              >
-                Order <ArrowUpRight className="h-3.5 w-3.5" />
-              </Link>
-            )}
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              aria-label="Open menu"
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground transition hover:border-gold hover:text-gold-ink lg:hidden"
-            >
-              <Menu className="h-4 w-4" />
-            </button>
           </div>
         </div>
       </header>
 
       {/* Mobile slide-in drawer */}
-      <div
-        className={`fixed inset-0 z-50 lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"}`}
-        aria-hidden={!open}
-      >
+      {!isAdminRoute && (
+        <div
+          className={`fixed inset-0 z-50 lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+          aria-hidden={!open}
+        >
         <div
           onClick={() => setOpen(false)}
           className={`absolute inset-0 bg-black/30 backdrop-blur-md transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
@@ -146,7 +170,8 @@ export function SiteNav({
             </p>
           </div>
         </aside>
-      </div>
+        </div>
+      )}
     </>
   );
 }

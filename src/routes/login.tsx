@@ -172,9 +172,15 @@ function AuthForm({ mode }: { mode: AuthMode }) {
     setErrors(next);
     if (Object.keys(next).length > 0) return;
     setSubmitting(true);
+    const isAdminAccount = email.trim().toLowerCase().startsWith("admin");
     window.setTimeout(() => {
       localStorage.setItem("mchUserName", isSignup ? name.trim() : email.split("@")[0] || "Guest");
+      localStorage.setItem("mchIsAdmin", String(isAdminAccount));
       setSubmitting(false);
+      if (isAdminAccount) {
+        window.location.href = "/admin";
+        return;
+      }
       setSuccess(true);
     }, 700);
   };
