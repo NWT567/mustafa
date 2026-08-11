@@ -52,9 +52,11 @@ async function install() {
     // kill previous ScrollTriggers before re-running per route
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-    // 1) Reveal: fade + slide up on section content blocks
+    // 1) Reveal: fade + slide up on section content blocks.
+    // Keep the footer static so its final legal row cannot remain hidden when
+    // the page ends before a ScrollTrigger threshold is reached.
     const revealTargets = document.querySelectorAll<HTMLElement>(
-      "section > div, section > .glass-panel, footer > div",
+      "section > div, section > .glass-panel",
     );
     revealTargets.forEach((el) => {
       if (el.dataset.pmRevealed) return;
@@ -153,7 +155,9 @@ async function install() {
     });
 
     // 5) Magnetic buttons — pill-shaped CTAs
-    const magnets = document.querySelectorAll<HTMLElement>("a.rounded-full, button.rounded-full");
+    const magnets = document.querySelectorAll<HTMLElement>(
+      "a.rounded-full:not([data-no-magnetic]), button.rounded-full:not([data-no-magnetic])",
+    );
     magnets.forEach((el) => {
       if (el.dataset.pmMag) return;
       const strength = 0.25;

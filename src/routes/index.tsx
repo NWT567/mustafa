@@ -218,7 +218,7 @@ function Marquee() {
     "Single Origin",
     "Slow Roasted",
     "House Baked",
-    "MCH Signature Tree",
+    "MCH Signature Tea",
     "Rewards Program",
     "Open 24 Hrs",
   ];

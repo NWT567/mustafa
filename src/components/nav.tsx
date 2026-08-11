@@ -41,7 +41,7 @@ export function SiteNav({
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-40">
-        <div className="mx-auto mt-4 grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full glass-panel px-4 py-3 shadow-luxury sm:px-6 lg:px-8">
+        <div className="mx-auto mt-4 grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full border border-border bg-card px-4 py-3 shadow-luxury sm:px-6 lg:px-8">
           <Link to="/" className="flex min-w-0 items-center gap-2">
             <Logo showWordmark className="h-11 w-auto max-w-[13rem] sm:h-12 lg:h-14" />
           </Link>

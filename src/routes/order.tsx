@@ -39,12 +39,17 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { playClink, playPour, playSteam, playTap } from "@/lib/coffee-sounds";
 import orderHeroVideo from "../assets/MUSTAFA VIDEOS/UBE LATTE + PERSONA.mp4";
-import storeInteriorImg from "@/assets/Gallery/_MG_9590.jpg";
-import storeCounterImg from "@/assets/Gallery/22.jpg";
-import storeDiningImg from "@/assets/Gallery/_MG_2039.jpg";
+import "leaflet/dist/leaflet.css";
 
 export const Route = createFileRoute("/order")({
   head: () => ({
@@ -147,9 +152,8 @@ type StoreLocation = {
   popularItems: string[];
   notes: string;
   pickupOptions: string[];
-  mapX: number;
-  mapY: number;
-  interiorImage: string;
+  latitude: number;
+  longitude: number;
 };
 
 const FALLBACK_MENU_IMAGE = new URL(
@@ -194,9 +198,8 @@ const STORE_LOCATIONS: StoreLocation[] = [
     notes:
       "Primary location for quick pickup, late-night coffee, and dessert orders.",
     pickupOptions: ["Curbside pickup", "Counter pickup", "Late-night pickup"],
-    mapX: 58,
-    mapY: 54,
-    interiorImage: storeInteriorImg,
+    latitude: 42.04561,
+    longitude: -88.14029,
   },
   {
     id: "schaumburg",
@@ -226,9 +229,8 @@ const STORE_LOCATIONS: StoreLocation[] = [
     notes:
       "Ideal for daytime orders, laptop work, and quick grab-and-go pickups.",
     pickupOptions: ["Lobby pickup", "Express pickup"],
-    mapX: 73,
-    mapY: 36,
-    interiorImage: storeDiningImg,
+    latitude: 42.0572,
+    longitude: -88.1364,
   },
   {
     id: "rolling-meadows",
@@ -258,9 +260,8 @@ const STORE_LOCATIONS: StoreLocation[] = [
     notes:
       "A calm pickup stop for guests who want a quieter dining room or earlier daytime service.",
     pickupOptions: ["Pickup counter", "Phone-ahead pickup"],
-    mapX: 31,
-    mapY: 67,
-    interiorImage: storeCounterImg,
+    latitude: 42.0842,
+    longitude: -88.0131,
   },
 ];
 
@@ -268,10 +269,6 @@ function isStoreOpen(store: StoreLocation, now: Date) {
   if (store.open24Hours) return true;
   const minutes = now.getHours() * 60 + now.getMinutes();
   return minutes >= store.openMinutes && minutes < store.closeMinutes;
-}
-
-function getStoreMapEmbedUrl(store: StoreLocation) {
-  return `https://www.google.com/maps?q=${encodeURIComponent(store.addressLines.join(", "))}&z=17&output=embed`;
 }
 
 type StoreViewLocation = StoreLocation & {
@@ -304,75 +301,102 @@ function StoreSelectorSection({
               Choose your pickup location.
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">
-              Select the store that fits your route, then use the detail screen
-              to review hours, prep time, amenities, and pickup options before
-              you place the order.
+              Compare nearby stores, check pickup timing, and choose the stop
+              that fits your route.
             </p>
           </div>
 
           <div className="flex flex-col items-start gap-3 lg:items-end">
-            <div className="inline-flex rounded-full border border-border bg-background p-1">
+            <div
+              className="relative z-10 inline-flex rounded-full border border-border bg-background p-1"
+              role="tablist"
+              aria-label="Location display"
+            >
               <button
                 type="button"
+                role="tab"
+                aria-selected={viewMode === "list"}
+                aria-controls="store-list-panel"
+                data-no-magnetic
+                onPointerDown={() => setViewMode("list")}
                 onClick={() => setViewMode("list")}
-                className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
+                className={`touch-manipulation rounded-[1.25rem] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
                   viewMode === "list"
                     ? "bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow"
-                    : "text-muted-foreground hover:text-gold-ink"
+                    : "text-muted-foreground hover:bg-gold-soft/30 hover:text-gold-ink"
                 }`}
               >
                 List view
               </button>
               <button
                 type="button"
+                role="tab"
+                aria-selected={viewMode === "map"}
+                aria-controls="store-map-panel"
+                data-no-magnetic
+                onPointerDown={() => setViewMode("map")}
                 onClick={() => setViewMode("map")}
-                className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
+                className={`touch-manipulation rounded-[1.25rem] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
                   viewMode === "map"
                     ? "bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow"
-                    : "text-muted-foreground hover:text-gold-ink"
+                    : "text-muted-foreground hover:bg-gold-soft/30 hover:text-gold-ink"
                 }`}
               >
                 Map view
               </button>
             </div>
             <div className="text-right text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Primary location
+              Current pickup
               <div className="mt-1 font-semibold text-foreground">
-                Mustafa Coffee House
+                {selectedStore.locationName}
               </div>
               <div className="mt-0.5 text-gold-ink">
-                Hoffman Estates, Illinois
+                {selectedStore.cityState}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1.3fr_0.95fr] lg:items-stretch">
-          <div className="self-stretch">
-            {viewMode === "list" ? (
-              <div className="grid h-full gap-4">
+        <div className="mt-8">
+          {viewMode === "list" ? (
+            <Carousel
+              id="store-list-panel"
+              role="tabpanel"
+              opts={{ align: "start", dragFree: true }}
+              className="w-full"
+              aria-label="Pickup locations"
+            >
+              <CarouselContent className="-ml-3 sm:-ml-4">
                 {stores.map((store) => (
-                  <StoreCard
+                  <CarouselItem
                     key={store.id}
-                    store={store}
-                    selected={store.id === selectedStoreId}
-                    onSelect={() => onSelectStore(store.id)}
-                  />
+                    className="pl-3 sm:basis-1/2 sm:pl-4 xl:basis-1/3"
+                  >
+                    <StoreCard
+                      store={store}
+                      selected={store.id === selectedStoreId}
+                      onSelect={() => onSelectStore(store.id)}
+                    />
+                  </CarouselItem>
                 ))}
+              </CarouselContent>
+              <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                  Swipe or use arrows to explore locations
+                </span>
+                <div className="flex items-center gap-2">
+                  <CarouselPrevious className="static h-9 w-9 translate-x-0 translate-y-0 border-border bg-background text-foreground hover:border-gold hover:text-gold-ink" />
+                  <CarouselNext className="static h-9 w-9 translate-x-0 translate-y-0 border-border bg-background text-foreground hover:border-gold hover:text-gold-ink" />
+                </div>
               </div>
-            ) : (
-              <StoreMapView
-                stores={stores}
-                selectedStoreId={selectedStoreId}
-                onSelectStore={onSelectStore}
-              />
-            )}
-          </div>
-
-          <StoreDetailScreen
-            store={selectedStore}
-            onSelectStore={() => onSelectStore(selectedStore.id)}
-          />
+            </Carousel>
+          ) : (
+            <StoreMapView
+              stores={stores}
+              selectedStoreId={selectedStoreId}
+              onSelectStore={onSelectStore}
+            />
+          )}
         </div>
       </div>
     </section>
@@ -390,13 +414,13 @@ function StoreCard({
 }) {
   return (
     <article
-      className={`flex h-full min-h-[11rem] flex-col rounded-[1.75rem] border p-5 transition ${
+      className={`flex h-full min-h-[20rem] flex-col rounded-[1.75rem] border p-5 transition ${
         selected
           ? "border-gold/70 bg-gold-soft/10 shadow-glow"
           : "border-border bg-background/90 hover:border-gold/40 hover:shadow-luxury"
       }`}
     >
-      <div className="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex flex-1 flex-col gap-4">
         <div className="min-w-0">
           <div className="text-[11px] uppercase tracking-[0.28em] text-gold-ink">
             {store.locationName}
@@ -431,7 +455,7 @@ function StoreCard({
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-wrap items-center gap-2">
+        <div className="mt-auto flex shrink-0 flex-wrap items-center gap-2 border-t border-border pt-4">
           <a
             href={store.directionsUrl}
             target="_blank"
@@ -481,115 +505,175 @@ function StoreMapView({
 
   return (
     <div className="overflow-hidden rounded-[1.75rem] border border-border bg-background shadow-luxury">
-      <div className="border-b border-border px-5 py-4">
-        <div className="text-[11px] uppercase tracking-[0.28em] text-gold-ink">
-          Map view
-        </div>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Tap a pin to switch stores and keep the detail panel in sync.
-        </p>
-      </div>
-      <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="relative min-h-[24rem] overflow-hidden">
-          <iframe
-            title={`${selectedStore.cityState} map`}
-            src={getStoreMapEmbedUrl(selectedStore)}
-            className="h-full min-h-[24rem] w-full border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-          />
-        </div>
-        <div className="border-t border-border bg-background/95 p-4 lg:border-l lg:border-t-0">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-ink">
-            Other locations
+      <div className="flex flex-col gap-3 border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div className="text-[11px] uppercase tracking-[0.28em] text-gold-ink">
+            Interactive pickup map
           </div>
-          <div className="mt-4 space-y-3">
-            {stores.map((store) => {
-              const selected = store.id === selectedStoreId;
-              return (
-                <button
-                  key={store.id}
-                  type="button"
-                  onClick={() => onSelectStore(store.id)}
-                  className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left transition ${
+          <p className="mt-1 text-sm text-muted-foreground">
+            Choose a pin to update your pickup location.
+          </p>
+        </div>
+        <a
+          href={selectedStore.directionsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-gold hover:text-gold-ink"
+        >
+          <Navigation className="h-3.5 w-3.5" />
+          Open directions
+        </a>
+      </div>
+      <div
+        id="store-map-panel"
+        className="relative min-h-[28rem] scroll-mt-32 overflow-hidden bg-muted sm:min-h-[32rem]"
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(0.95_0.02_85),oklch(0.9_0.035_82))]" />
+        <LeafletStoreMap
+          stores={stores}
+          selectedStoreId={selectedStoreId}
+          onSelectStore={onSelectStore}
+        />
+        <div className="pointer-events-none absolute left-4 top-4 z-[500] max-w-[calc(100%-2rem)] rounded-2xl border border-border bg-background/92 px-4 py-3 shadow-luxury backdrop-blur sm:left-5 sm:top-5">
+          <div className="text-[10px] uppercase tracking-[0.22em] text-gold-ink">
+            Selected pickup
+          </div>
+          <div className="mt-1 font-display text-xl text-foreground">
+            {selectedStore.cityState}
+          </div>
+          <div className="mt-1 text-xs text-muted-foreground">
+            {selectedStore.addressLines.join(" · ")} · {selectedStore.prepTime} prep
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-border bg-card/80 p-4 sm:p-5">
+        <div className="mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-ink">
+          Show another location
+        </div>
+        <div className="grid gap-2 sm:grid-cols-3">
+          {stores.map((store) => {
+            const selected = store.id === selectedStoreId;
+            return (
+              <button
+                key={store.id}
+                type="button"
+                data-no-magnetic
+                onPointerDown={() => onSelectStore(store.id)}
+                onClick={() => onSelectStore(store.id)}
+                aria-pressed={selected}
+                className={`flex items-center gap-3 rounded-2xl border px-4 py-3 text-left transition ${
+                  selected
+                    ? "border-gold bg-gold-soft/20 text-foreground shadow-glow"
+                    : "border-border bg-background text-muted-foreground hover:border-gold/50"
+                }`}
+              >
+                <span
+                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full ${
                     selected
-                      ? "border-gold bg-gold-soft/10 shadow-glow"
-                      : "border-border bg-background hover:border-gold/40"
+                      ? "bg-gradient-to-br from-gold-soft to-caramel text-espresso"
+                      : "bg-muted text-gold-ink"
                   }`}
                 >
-                  <MapPin className={`h-4 w-4 shrink-0 ${selected ? "text-gold-ink" : "text-gold-ink/70"}`} />
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-medium text-foreground">
-                      {store.cityState}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {store.distance}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                  <MapPin className="h-4 w-4" />
+                </span>
+                <span className="min-w-0">
+                  <strong className="block truncate text-sm font-medium">
+                    {store.cityState}
+                  </strong>
+                  <span className="text-xs">{store.prepTime} prep</span>
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 }
 
-function StoreDetailScreen({
-  store,
+function LeafletStoreMap({
+  stores,
+  selectedStoreId,
   onSelectStore,
 }: {
-  store: StoreViewLocation;
-  onSelectStore: () => void;
+  stores: StoreViewLocation[];
+  selectedStoreId: string;
+  onSelectStore: (storeId: string) => void;
 }) {
-  return (
-    <aside className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-border bg-card shadow-luxury">
-      <div className="relative flex-1 min-h-[28rem]">
-        <img
-          src={store.interiorImage}
-          alt={`${store.locationName} interior`}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-        <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-background/40 bg-background/85 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-espresso backdrop-blur">
-          <MapPin className="h-3.5 w-3.5 text-gold-ink" />
-          Selected store
-        </div>
-        <div className="absolute inset-x-5 bottom-5 rounded-[1.5rem] border border-background/35 bg-background/88 p-4 backdrop-blur-md">
-          <div className="text-[11px] uppercase tracking-[0.28em] text-gold-ink">
-            {store.locationName}
-          </div>
-          <h3 className="mt-1 font-display text-3xl text-foreground">
-            {store.cityState}
-          </h3>
-          <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-            A quiet, polished pickup view that keeps the right side clean while
-            the list on the left carries the practical details.
-          </p>
-        </div>
-      </div>
+  const containerRef = useRef<HTMLDivElement>(null);
 
-      <div className="grid gap-3 border-t border-border bg-background/95 p-4 sm:grid-cols-2 sm:p-5">
-        <a
-          href={store.directionsUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-gold hover:text-gold-ink"
-        >
-          <Navigation className="h-3.5 w-3.5" />
-          Directions
-        </a>
-        <button
-          type="button"
-          onClick={onSelectStore}
-          className="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-gold-soft to-caramel px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow transition hover:brightness-110"
-        >
-          Select this store
-        </button>
-      </div>
-    </aside>
+  useEffect(() => {
+    let disposed = false;
+    let removeMap: (() => void) | undefined;
+
+    void import("leaflet").then((leaflet) => {
+      const container = containerRef.current;
+      if (disposed || !container) return;
+
+      const selectedStore =
+        stores.find((store) => store.id === selectedStoreId) ?? stores[0];
+      const map = leaflet.map(container, {
+        center: [selectedStore.latitude, selectedStore.longitude],
+        zoom: 13,
+        scrollWheelZoom: false,
+        zoomControl: true,
+      });
+
+      leaflet
+        .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+        })
+        .addTo(map);
+
+      const bounds = leaflet.latLngBounds(
+        stores.map((store) => [store.latitude, store.longitude]),
+      );
+
+      stores.forEach((store) => {
+        const selected = store.id === selectedStoreId;
+        const icon = leaflet.divIcon({
+          className: "",
+          iconSize: [42, 42],
+          iconAnchor: [21, 38],
+          html: `<span aria-hidden="true" style="display:grid;width:42px;height:42px;place-items:center;border:4px solid #fff;border-radius:999px;background:${selected ? "#d7a05e" : "#39261f"};color:${selected ? "#39261f" : "#fffaf0"};box-shadow:0 10px 24px rgba(57,38,31,.28);font-size:18px;line-height:1">●</span>`,
+        });
+        const marker = leaflet
+          .marker([store.latitude, store.longitude], { icon })
+          .addTo(map)
+          .on("click", () => onSelectStore(store.id));
+
+        marker.bindTooltip(store.cityState, {
+          direction: "top",
+          offset: [0, -34],
+          permanent: selected,
+          opacity: 0.95,
+        });
+      });
+
+      if (stores.length > 1) {
+        map.fitBounds(bounds.pad(0.25), { maxZoom: 13, animate: false });
+      }
+
+      window.requestAnimationFrame(() => map.invalidateSize());
+      removeMap = () => map.remove();
+    });
+
+    return () => {
+      disposed = true;
+      removeMap?.();
+    };
+  }, [onSelectStore, selectedStoreId, stores]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="absolute inset-0 z-0"
+      role="application"
+      aria-label="Interactive pickup location map"
+    />
   );
 }
 
@@ -2003,8 +2087,9 @@ export function OrderPage() {
                 All categories, all in one place.
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                Use the chips to jump to each section. Every category below
-                includes a full grid of products with real imagery.
+                Use the chips to jump to each section. Product details,
+                customization options, price, and pickup time are organized in
+                easy-to-scan rows.
               </p>
             </div>
             <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
@@ -2129,7 +2214,7 @@ function MenuSectionBlock({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4">
         {section.items.map((item) => (
           <MenuCard
             key={item.id}
@@ -2277,7 +2362,7 @@ function VideoHero({
   );
 }
 
-/* ---------- Menu Card with 3D tilt + real image ---------- */
+/* ---------- Compact, information-first product row ---------- */
 function MenuCard({
   item,
   qty,
@@ -2289,81 +2374,73 @@ function MenuCard({
   onCustomize: () => void;
   onHover: () => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [t, setT] = useState({ rx: 0, ry: 0 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    setT({ rx: -y * 8, ry: x * 10 });
-  };
-  const reset = () => setT({ rx: 0, ry: 0 });
+  const customizationGroups = getCustomizationConfig(item).groups;
 
   return (
-    <div
-      ref={ref}
-      onMouseMove={onMove}
+    <article
       onMouseEnter={onHover}
-      onMouseLeave={reset}
-      className="group relative [perspective:1000px]"
+      className="group grid min-h-[11rem] grid-cols-[7.5rem_minmax(0,1fr)] overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-luxury transition duration-300 hover:-translate-y-0.5 hover:border-gold/55 sm:grid-cols-[11rem_minmax(0,1fr)_12rem]"
     >
-      <div
-        className="relative flex h-full min-h-[430px] flex-col overflow-hidden rounded-3xl glass-panel transition-transform duration-200 ease-out will-change-transform"
-        style={{ transform: `rotateX(${t.rx}deg) rotateY(${t.ry}deg)` }}
-      >
-        <div className="relative h-[300px] w-full overflow-hidden">
-          <img
-            src={item.image}
-            alt={item.name}
-            loading="lazy"
-            width={768}
-            height={576}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            style={{ transform: `translateZ(20px) scale(1.02)` }}
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso via-espresso/20 to-transparent" />
-          <div className="absolute right-3 top-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-gold-ink backdrop-blur">
-            {item.category}
-          </div>
+      <div className="relative min-h-[8.5rem] overflow-hidden sm:min-h-[11rem]">
+        <img
+          src={item.image}
+          alt={item.name}
+          loading="lazy"
+          width={352}
+          height={352}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-espresso/15" />
+        {qty > 0 && (
+          <span className="absolute left-2 top-2 rounded-full bg-espresso px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-cream shadow-luxury">
+            {qty} in cart
+          </span>
+        )}
+      </div>
+
+      <div className="min-w-0 p-4 sm:p-5 lg:px-6">
+        <div className="text-[10px] uppercase tracking-[0.22em] text-gold-ink">
+          {item.category.replaceAll("-", " ")}
         </div>
-
-        <div className="relative flex flex-1 flex-col justify-between p-6" style={{ transform: "translateZ(30px)" }}>
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <div className="font-display text-2xl leading-tight text-foreground">
-                {item.name}
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {item.tagline}
-              </p>
-            </div>
-            <div className="text-right">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-gold-ink">
-                Price
-              </div>
-              <div className="font-display text-2xl text-gold-gradient">
-                ${item.price.toFixed(2)}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 flex items-center justify-between">
-            <button
-              onClick={onCustomize}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow transition hover:brightness-110"
+        <h4 className="mt-1 font-display text-xl leading-tight text-foreground sm:text-2xl">
+          {item.name}
+        </h4>
+        <p className="mt-1 text-sm leading-5 text-muted-foreground">
+          {item.tagline}
+        </p>
+        <div className="mt-4 hidden flex-wrap gap-2 sm:flex">
+          {customizationGroups.slice(0, 3).map((group) => (
+            <span
+              key={group.id}
+              className="rounded-full border border-border bg-background/80 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground"
             >
-              <Plus className="h-3.5 w-3.5" /> Add On
-            </button>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              {qty > 0 ? `In cart x${qty}` : "Ready ~ 6 min"}
+              {group.label}
             </span>
-          </div>
+          ))}
         </div>
       </div>
-    </div>
+
+      <div className="col-span-2 flex items-center justify-between gap-4 border-t border-border bg-background/65 p-4 sm:col-span-1 sm:flex-col sm:items-stretch sm:justify-center sm:border-l sm:border-t-0 sm:p-5">
+        <div className="sm:text-right">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-gold-ink">
+            From
+          </div>
+          <div className="font-display text-2xl text-gold-gradient sm:text-3xl">
+            ${item.price.toFixed(2)}
+          </div>
+          <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+            Ready in about 6 min
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onCustomize}
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-espresso shadow-glow transition hover:brightness-110"
+        >
+          <Plus className="h-3.5 w-3.5" /> Customize
+        </button>
+      </div>
+    </article>
   );
 }
 
