@@ -312,7 +312,7 @@ function StoreSelectorSection({
               role="tablist"
               aria-label="Location display"
             >
-              <button
+              {/* <button
                 type="button"
                 role="tab"
                 aria-selected={viewMode === "list"}
@@ -327,8 +327,8 @@ function StoreSelectorSection({
                 }`}
               >
                 List view
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 type="button"
                 role="tab"
                 aria-selected={viewMode === "map"}
@@ -343,7 +343,7 @@ function StoreSelectorSection({
                 }`}
               >
                 Map view
-              </button>
+              </button> */}
             </div>
             <div className="text-right text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Current pickup
@@ -810,6 +810,14 @@ const MENU_SECTIONS: MenuSectionData[] = [
         image: commonsImage("Hot Caffe Latte.jpg"),
       },
       {
+        id: "signature-latte-combo",
+        name: "Signature Latte Combo",
+        tagline: "House latte pairing - a guest favorite",
+        price: 9.95,
+        category: "hot-coffees-lattes",
+        image: commonsImage("Signature Latte Combo.jpg"),
+      },
+      {
         id: "classic-latte",
         name: "Classic Latte",
         tagline: "Smooth milk - soft crema",
@@ -1199,6 +1207,22 @@ const MENU_SECTIONS: MenuSectionData[] = [
         category: "pastries",
         image: commonsImage("Pastry,.jpg"),
       },
+      {
+        id: "pistachio-mousse-cake",
+        name: "Pistachio Mousse Cake",
+        tagline: "Airy pistachio mousse - layered finish",
+        price: 7.5,
+        category: "pastries",
+        image: commonsImage("Pistachio Mousse Cake.jpg"),
+      },
+      {
+        id: "chocolate-cupcake",
+        name: "Chocolate Cupcake",
+        tagline: "Deep cocoa cake - chocolate swirl",
+        price: 4.95,
+        category: "pastries",
+        image: commonsImage("Chocolate Cupcake.jpg"),
+      },
     ],
   },
   {
@@ -1275,8 +1299,8 @@ const MENU_SECTIONS: MenuSectionData[] = [
       },
       {
         id: "coffee-mug-drink",
-        name: "House Mug Drink",
-        tagline: "Coffee served simple and hot",
+        name: "House Coffee",
+        tagline: "Smooth house roast - served fresh and hot",
         price: 4.5,
         category: "drinks",
         image: commonsImage("Coffee mug on table.jpg"),
@@ -2378,8 +2402,9 @@ function MenuCard({
 
   return (
     <article
+      id={`product-${item.id}`}
       onMouseEnter={onHover}
-      className="group grid min-h-[11rem] grid-cols-[7.5rem_minmax(0,1fr)] overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-luxury transition duration-300 hover:-translate-y-0.5 hover:border-gold/55 sm:grid-cols-[11rem_minmax(0,1fr)_12rem]"
+      className="group grid min-h-[11rem] scroll-mt-32 grid-cols-[7.5rem_minmax(0,1fr)] overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-luxury transition duration-300 target:border-gold target:ring-2 target:ring-gold/35 target:shadow-glow hover:-translate-y-0.5 hover:border-gold/55 sm:grid-cols-[11rem_minmax(0,1fr)_12rem]"
     >
       <div className="relative min-h-[8.5rem] overflow-hidden sm:min-h-[11rem]">
         <img

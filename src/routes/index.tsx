@@ -10,21 +10,18 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
+  ShoppingBag,
+  RotateCcw,
 } from "lucide-react";
 import { SiteNav } from "@/components/nav";
 import { SiteFooter } from "@/components/footer";
 import heroCafeImg from "../../MUSTAFA PICTURES/1ST/_MG_0022.jpg";
 import signatureVideo from "../assets/MUSTAFA VIDEOS/VIDEO VIRAL COLD BREW.mp4";
 import galleryCounterImg from "@/assets/Gallery/22.jpg";
-import galleryPourImg from "@/assets/Gallery/_71A0833.jpg";
 import galleryLatteImg from "@/assets/Gallery/_MG_0374.jpg";
-import galleryPastryImg from "@/assets/Gallery/_MG_0391.jpg";
 import galleryDiningImg from "@/assets/Gallery/_MG_2039.jpg";
-import galleryDessertImg from "@/assets/Gallery/_MG_2049.jpg";
 import gallerySignatureImg from "@/assets/Gallery/_MG_3063-Enhanced-NR.jpg";
-import galleryIcedImg from "@/assets/Gallery/_MG_3073.jpg";
 import galleryTableImg from "@/assets/Gallery/_MG_3127.jpg";
-import galleryInteriorImg from "@/assets/Gallery/_MG_9590.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -448,61 +445,94 @@ function GuestReviewsSection() {
     </section>
   );
 }
-const GALLERY_PAIRS = [
+const BESTSELLERS = [
   {
-    front: galleryCounterImg,
-    back: galleryPourImg,
-    frontLabel: "caffè latte",
-    backLabel: "Chocolate cake",
+    image: galleryCounterImg,
+    name: "Caffè Latte",
+    productId: "cafe-latte",
+    category: "Hot coffee",
+    description: "Silky espresso, steamed milk, and a clean layer of microfoam.",
+    price: 5.95,
   },
   {
-    front: galleryLatteImg,
-    back: galleryPastryImg,
-    frontLabel: "Signature Latte Combo",
-    backLabel: "Pistachio croissant",
+    image: galleryLatteImg,
+    name: "Signature Latte Combo",
+    productId: "signature-latte-combo",
+    category: "House pairing",
+    description: "Our signature latte pairing for an easy coffee-house favorite.",
+    price: 9.95,
   },
   {
-    front: galleryDiningImg,
-    back: galleryDessertImg,
-    frontLabel: "Pistachio Mousse Cake",
-    backLabel: "Layered chocolate Mousse",
+    image: galleryDiningImg,
+    name: "Pistachio Mousse Cake",
+    productId: "pistachio-mousse-cake",
+    category: "Dessert",
+    description: "Airy pistachio mousse with a rich, delicately layered finish.",
+    price: 7.5,
   },
   {
-    front: gallerySignatureImg,
-    back: galleryIcedImg,
-    frontLabel: "Coffee",
-    backLabel: "Strawberry Frappé + cheesecake",
+    image: gallerySignatureImg,
+    name: "House Coffee",
+    productId: "coffee-mug-drink",
+    category: "Freshly brewed",
+    description: "A comforting house cup with a smooth roast and warm finish.",
+    price: 4.5,
   },
   {
-    front: galleryTableImg,
-    back: galleryInteriorImg,
-    frontLabel: "Chocolate cupcake",
-    backLabel: "Blended Nut Frappé",
+    image: galleryTableImg,
+    name: "Chocolate Cupcake",
+    productId: "chocolate-cupcake",
+    category: "Fresh baked",
+    description: "Deep cocoa cake finished with a generous chocolate swirl.",
+    price: 4.95,
   },
 ] as const;
 
 function GallerySection() {
+  const [activeProductId, setActiveProductId] = useState<string | null>(null);
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-cream to-latte/20 px-5 py-24 sm:px-8 lg:py-28">
       <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:radial-gradient(circle_at_1px_1px,oklch(0.76_0.13_82/0.18)_1px,transparent_0)] [background-size:34px_34px]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
       <div className="relative mx-auto max-w-7xl">
-        <div className="max-w-4xl">
-          <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
-            - Most Selling Products
+        <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-4xl">
+            <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
+              - Most Selling Products
+            </div>
+            <h2 className="mt-3 max-w-4xl font-display text-4xl leading-[0.95] text-foreground sm:text-5xl lg:text-6xl">
+              House favorites, hanging within reach.
+            </h2>
+            <p className="mt-5 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+              Select a hanging portrait to reveal its details, then jump directly to the item to customize your order.
+            </p>
           </div>
-          <h2 className="mt-3 max-w-4xl font-display text-4xl leading-[0.95] text-foreground sm:text-5xl lg:text-6xl">
-            Most selling products, ready to browse at a glance.
-          </h2>
-          <p className="mt-5 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-            A polished selection of the house favorites, using only real images from the studio and menu folders.
-          </p>
+          <a
+            href="/order"
+            className="group inline-flex w-fit shrink-0 items-center gap-2 rounded-full border border-gold/45 bg-background/80 px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-gold-ink shadow-luxury transition hover:border-gold hover:bg-gold-soft/30"
+          >
+            Explore full menu
+            <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {GALLERY_PAIRS.map((pair, index) => (
-            <GalleryCard key={pair.frontLabel} pair={pair} index={index} />
-          ))}
+        <div className="-mx-5 mt-10 overflow-x-auto px-5 pb-8 sm:-mx-8 sm:px-8">
+          <div className="mx-auto flex w-max min-w-full items-start gap-5 xl:justify-between">
+            {BESTSELLERS.map((product, index) => (
+              <GalleryCard
+                key={product.productId}
+                product={product}
+                index={index}
+                flipped={activeProductId === product.productId}
+                onFlip={() =>
+                  setActiveProductId((current) =>
+                    current === product.productId ? null : product.productId,
+                  )
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -510,48 +540,113 @@ function GallerySection() {
 }
 
 function GalleryCard({
-  pair,
+  product,
   index,
+  flipped,
+  onFlip,
 }: {
-  pair: (typeof GALLERY_PAIRS)[number];
+  product: (typeof BESTSELLERS)[number];
   index: number;
+  flipped: boolean;
+  onFlip: () => void;
 }) {
-  const offsets = [
-    "lg:translate-y-0",
-    "lg:translate-y-8",
-    "lg:-translate-y-4",
-    "lg:translate-y-8",
-    "lg:translate-y-0",
-  ];
-
   return (
     <article
-      className={`group overflow-hidden rounded-[2rem] border border-border bg-background shadow-luxury transition duration-300 hover:-translate-y-1 hover:shadow-glow ${offsets[index] ?? ""}`}
-      data-parallax
-      data-parallax-speed={String(0.06 + index * 0.015)}
+      data-no-motion
+      className="bestseller-hanger relative w-64 shrink-0 pt-24 xl:w-56 2xl:w-60"
     >
-      <div className="relative aspect-[4/5] overflow-hidden">
-        <img
-          src={pair.front}
-          alt={pair.frontLabel}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/72 via-black/14 to-black/6" />
-        <div className="absolute left-4 top-4 rounded-full border border-background/30 bg-background/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-gold-ink backdrop-blur">
-          Bestseller
-        </div>
+      <div
+        className="pointer-events-none absolute left-1/2 top-0 z-0 h-24 w-24 -translate-x-1/2"
+        aria-hidden="true"
+      >
+        <span className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full border border-gold/55 bg-gradient-to-br from-gold-soft to-caramel shadow-glow" />
+        <span className="absolute left-1/2 top-2 h-[5.8rem] w-px origin-top -rotate-[28deg] bg-gradient-to-b from-gold-ink/80 to-gold/45" />
+        <span className="absolute left-1/2 top-2 h-[5.8rem] w-px origin-top rotate-[28deg] bg-gradient-to-b from-gold-ink/80 to-gold/45" />
       </div>
-      <div className="space-y-2 p-5 text-left">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-gold-ink">
-          Most selling
+
+      <div className="bestseller-flip relative z-10 aspect-square w-full">
+        <div
+          className="bestseller-flip-inner relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.2,0.75,0.25,1)]"
+          style={{ transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
+        >
+          <button
+            type="button"
+            data-no-magnetic
+            data-no-motion
+            onClick={onFlip}
+            aria-expanded={flipped}
+            aria-label={`Show details for ${product.name}`}
+            className={`bestseller-face absolute inset-0 overflow-hidden rounded-full border-4 border-background bg-background shadow-luxury ring-1 ring-gold/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+              flipped ? "pointer-events-none" : "pointer-events-auto"
+            }`}
+          >
+            <img
+              data-no-motion
+              src={product.image}
+              alt={product.name}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+            <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-t from-espresso/20 via-transparent to-white/10" />
+          </button>
+
+          <div
+            role="button"
+            tabIndex={flipped ? 0 : -1}
+            aria-label={`Show image for ${product.name}`}
+            onClick={onFlip}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onFlip();
+              }
+            }}
+            className={`bestseller-face bestseller-back absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full border-4 border-background bg-gradient-to-br from-cream via-background to-gold-soft/45 px-6 py-5 text-center shadow-luxury ring-1 ring-gold/50 xl:px-4 xl:py-4 2xl:px-5 ${
+              flipped
+                ? "pointer-events-auto cursor-pointer"
+                : "pointer-events-none"
+            }`}
+          >
+            <button
+              type="button"
+              data-no-magnetic
+              data-no-motion
+              onClick={(event) => {
+                event.stopPropagation();
+                onFlip();
+              }}
+              className="absolute right-5 top-5 grid h-8 w-8 place-items-center rounded-full border border-border bg-background/80 text-gold-ink xl:right-4 xl:top-4 xl:h-7 xl:w-7"
+              aria-label={`Show image for ${product.name}`}
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+            </button>
+
+            <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+              {product.category} · #{index + 1}
+            </div>
+            <h3 className="mt-2 max-w-[11rem] font-display text-2xl leading-[0.95] text-foreground xl:text-xl 2xl:text-2xl">
+              {product.name}
+            </h3>
+            <p className="mt-2 max-w-[11rem] text-[11px] leading-4 text-muted-foreground xl:mt-1.5 xl:text-[10px] xl:leading-[0.85rem] 2xl:text-[11px] 2xl:leading-4">
+              {product.description}
+            </p>
+            <div className="mt-2 font-display text-xl text-gold-gradient xl:mt-1 xl:text-lg 2xl:text-xl">
+              ${product.price.toFixed(2)}
+            </div>
+            <a
+              data-no-magnetic
+              data-no-motion
+              href={`/order#product-${product.productId}`}
+              onClick={(event) => event.stopPropagation()}
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-espresso shadow-glow xl:mt-2 xl:px-3 xl:py-1.5 2xl:px-4 2xl:py-2"
+              aria-label={`Order ${product.name}`}
+            >
+              <ShoppingBag className="h-3.5 w-3.5" />
+              Order now
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
         </div>
-        <div className="font-display text-2xl leading-tight text-foreground">
-          {pair.frontLabel}
-        </div>
-        <p className="text-sm leading-6 text-muted-foreground">
-          Featured customer favorite from the Mustafa collection.
-        </p>
       </div>
     </article>
   );

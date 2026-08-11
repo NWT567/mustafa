@@ -106,7 +106,9 @@ async function install() {
     });
 
     // 3) Scroll-triggered image scale/zoom
-    const imgs = document.querySelectorAll<HTMLImageElement>("img");
+    const imgs = document.querySelectorAll<HTMLImageElement>(
+      "img:not([data-no-motion])",
+    );
     imgs.forEach((img) => {
       if (img.dataset.pmImg) return;
       img.style.willChange = "transform";
@@ -156,7 +158,7 @@ async function install() {
 
     // 5) Magnetic buttons — pill-shaped CTAs
     const magnets = document.querySelectorAll<HTMLElement>(
-      "a.rounded-full:not([data-no-magnetic]), button.rounded-full:not([data-no-magnetic])",
+      "a.rounded-full:not([data-no-magnetic]):not([data-no-motion]), button.rounded-full:not([data-no-magnetic]):not([data-no-motion])",
     );
     magnets.forEach((el) => {
       if (el.dataset.pmMag) return;
@@ -180,8 +182,12 @@ async function install() {
     });
 
     // 6) Mouse parallax on hero imagery
-    const parallax = document.querySelectorAll<HTMLElement>("section img, [data-parallax]");
-    const scrollParallax = document.querySelectorAll<HTMLElement>("[data-parallax]");
+    const parallax = document.querySelectorAll<HTMLElement>(
+      "section img:not([data-no-motion]), [data-parallax]:not([data-no-motion])",
+    );
+    const scrollParallax = document.querySelectorAll<HTMLElement>(
+      "[data-parallax]:not([data-no-motion])",
+    );
     scrollParallax.forEach((el, i) => {
       if (el.dataset.pmScrollParallax) return;
       const rawSpeed = Number.parseFloat(el.dataset.parallaxSpeed ?? "");
@@ -209,6 +215,7 @@ async function install() {
       const dx = (e.clientX - cx) / cx;
       const dy = (e.clientY - cy) / cy;
       parallax.forEach((el, i) => {
+        if (el.dataset.noMotion !== undefined) return;
         const depth = 6 + (i % 3) * 4;
         gsap.to(el, {
           x: dx * depth,

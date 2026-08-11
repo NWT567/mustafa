@@ -397,3 +397,26 @@ body::-webkit-scrollbar,
   border-radius: 9999px;
   border: 2px solid oklch(0.96 0.01 85);
 }
+
+.bestseller-flip {
+  perspective: 1200px;
+}
+
+.bestseller-flip-inner {
+  transform-style: preserve-3d;
+}
+
+.bestseller-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.bestseller-back {
+  transform: rotateY(180deg);
+}
+
+/* Keep bestseller cards still; their only motion is the intentional click flip. */
+[data-no-motion] {
+  transform: none !important;
+  will-change: auto !important;
+}
