@@ -379,6 +379,7 @@ function GuestReviewsSection() {
         <div className="relative mt-12 lg:mt-14">
           <button
             type="button"
+            data-no-magnetic
             onClick={() => setPage((current) => (current === 0 ? reviewPages.length - 1 : current - 1))}
             aria-label="Previous reviews"
             className="absolute left-0 top-1/2 z-10 hidden h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-coffee/70 text-cream shadow-luxury transition hover:bg-coffee lg:grid"
@@ -387,6 +388,7 @@ function GuestReviewsSection() {
           </button>
           <button
             type="button"
+            data-no-magnetic
             onClick={() => setPage((current) => (current + 1) % reviewPages.length)}
             aria-label="Next reviews"
             className="absolute right-0 top-1/2 z-10 hidden h-11 w-11 translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-coffee/70 text-cream shadow-luxury transition hover:bg-coffee lg:grid"
