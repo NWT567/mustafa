@@ -8,7 +8,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { usePremiumMotion } from "../lib/premium-motion";
@@ -94,6 +94,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
         { name: "author", content: "Mustafa Coffee House" },
         { name: "theme-color", content: "#fbf8f1" },
+        { name: "application-name", content: "Mustafa Coffee House" },
+        { name: "mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+        { name: "apple-mobile-web-app-title", content: "Mustafa Coffee" },
         {
           property: "og:title",
           content: "Mustafa Coffee House — A Luxury Coffee Experience",
@@ -123,6 +128,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           href: appCss,
         },
         { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+        { rel: "manifest", href: "/manifest.webmanifest" },
       ],
     }),
     shellComponent: RootShell,
@@ -150,6 +156,24 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   usePremiumMotion(pathname !== "/order");
+
+  useEffect(() => {
+    if (!("serviceWorker" in navigator) || import.meta.env.DEV) return;
+
+    const registerServiceWorker = () => {
+      navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error) => {
+        console.error("Service worker registration failed:", error);
+      });
+    };
+
+    if (document.readyState === "complete") {
+      registerServiceWorker();
+      return;
+    }
+
+    window.addEventListener("load", registerServiceWorker, { once: true });
+    return () => window.removeEventListener("load", registerServiceWorker);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

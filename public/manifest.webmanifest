@@ -1,0 +1,39 @@
+{
+  "name": "Mustafa Coffee House",
+  "short_name": "Mustafa Coffee",
+  "description": "Order coffee, reserve a table, and track rewards at Mustafa Coffee House.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbf8f1",
+  "theme_color": "#fbf8f1",
+  "categories": ["food", "lifestyle", "shopping"],
+  "icons": [
+    {
+      "src": "/mustafa-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Order Coffee",
+      "short_name": "Order",
+      "url": "/order"
+    },
+    {
+      "name": "Loyalty Rewards",
+      "short_name": "Rewards",
+      "url": "/loyalty"
+    }
+  ]
+}
