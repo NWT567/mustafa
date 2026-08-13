@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { Logo } from "@/components/logo";
 
 const LINKS: { to: string; label: string }[] = [
@@ -21,6 +21,8 @@ export function SiteNav({
   adminMode?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const [navTilt, setNavTilt] = useState({ x: 0, y: 0 });
   const location = useLocation();
   const isOrderRoute = location.pathname === "/order";
   const links = LINKS;
@@ -29,6 +31,15 @@ export function SiteNav({
     localStorage.removeItem("mchIsAdmin");
     localStorage.removeItem("mchUserName");
     window.location.href = "/login";
+  };
+
+  const handleNavMove = (event: MouseEvent<HTMLDivElement>) => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const bounds = nav.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    setNavTilt({ x: x * 6, y: y * -6 });
   };
 
   useEffect(() => {
@@ -40,10 +51,26 @@ export function SiteNav({
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40">
-        <div className="mx-auto mt-4 grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full border border-border bg-card px-4 py-3 shadow-luxury sm:px-6 lg:px-8">
-          <Link to="/" className="flex min-w-0 items-center gap-2">
-            <Logo showWordmark className="h-11 w-auto max-w-[13rem] sm:h-12 lg:h-14" />
+      <header className="fixed inset-x-0 top-0 z-40" style={{ perspective: "1200px" }}>
+        <div
+          ref={navRef}
+          onMouseMove={handleNavMove}
+          onMouseLeave={() => setNavTilt({ x: 0, y: 0 })}
+          className="mx-auto mt-4 grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full border border-border bg-card px-4 py-3 shadow-luxury transition-transform duration-300 ease-out sm:px-6 lg:px-8"
+          style={{
+            transform: `rotateY(${navTilt.x}deg) rotateX(${navTilt.y}deg)`,
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <Link
+            to="/"
+            aria-label="Mustafa Coffee House home"
+            className="group flex min-w-0 items-center gap-2"
+          >
+            <Logo
+              showWordmark
+              className="h-11 w-auto max-w-[13rem] origin-left transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.02] motion-reduce:transform-none sm:h-12 lg:h-14"
+            />
           </Link>
           {!isAdminRoute && (
             <nav className="hidden items-center justify-center gap-7 text-sm text-muted-foreground lg:flex">
@@ -51,10 +78,14 @@ export function SiteNav({
                 <Link
                   key={l.to}
                   to={l.to}
-                  className="transition hover:text-gold-ink"
+                  className="group relative -my-2 px-1 py-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:text-gold-ink motion-reduce:transform-none"
                   activeProps={{ className: "text-gold-ink" }}
                 >
-                  {l.label}
+                  <span>{l.label}</span>
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-1 bottom-1 h-px origin-center scale-x-0 bg-gradient-to-r from-caramel via-gold to-caramel transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                  />
                 </Link>
               ))}
             </nav>
@@ -64,10 +95,10 @@ export function SiteNav({
               <button
                 type="button"
                 onClick={handleLogout}
-                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-gold hover:text-gold-ink"
+                className="group inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none"
               >
                 Logout
-                <ArrowUpRight className="h-3.5 w-3.5" />
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" />
               </button>
             ) : (
               <>
@@ -75,7 +106,7 @@ export function SiteNav({
                 {showSignIn && (
                   <Link
                     to="/login"
-                    className="hidden rounded-full border border-border px-4 py-2 text-xs uppercase tracking-[0.15em] text-muted-foreground transition hover:border-gold hover:text-gold-ink sm:inline-flex"
+                    className="hidden rounded-full border border-border px-4 py-2 text-xs uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none sm:inline-flex"
                   >
                     Sign in
                   </Link>
@@ -83,18 +114,19 @@ export function SiteNav({
                 {!isOrderRoute && (
                   <Link
                     to="/order"
-                    className="hidden items-center gap-1.5 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-espresso shadow-glow transition hover:brightness-110 lg:inline-flex"
+                    className="group hidden items-center gap-1.5 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-espresso shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:brightness-110 motion-reduce:transform-none lg:inline-flex"
                   >
-                    Order <ArrowUpRight className="h-3.5 w-3.5" />
+                    Order
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" />
                   </Link>
                 )}
                 <button
                   type="button"
                   onClick={() => setOpen(true)}
                   aria-label="Open menu"
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground transition hover:border-gold hover:text-gold-ink lg:hidden"
+                  className="group grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none lg:hidden"
                 >
-                  <Menu className="h-4 w-4" />
+                  <Menu className="h-4 w-4 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 motion-reduce:transform-none" />
                 </button>
               </>
             )}
