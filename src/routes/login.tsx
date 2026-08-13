@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
-import { ArrowUpRight, ChevronLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, Eye, EyeOff, Lock, Mail, Phone, User } from "lucide-react";
 import { Logo } from "@/components/logo";
 import loginShopImg from "../../MUSTAFA PICTURES/1ST/_MG_0039.jpg";
 
@@ -18,6 +18,19 @@ export const Route = createFileRoute("/login")({
 
 const emailSchema = z.string().trim().email({ message: "Enter a valid email" }).max(255);
 const passwordSchema = z.string().min(6, { message: "At least 6 characters" }).max(72);
+const nameSchema = z.string().trim().min(1).max(60);
+const phoneSchema = z
+  .string()
+  .trim()
+  .min(7, { message: "Enter a valid phone number" })
+  .max(25, { message: "Enter a valid phone number" })
+  .refine((value) => /^\+?[0-9\s().-]+$/.test(value), {
+    message: "Enter a valid phone number",
+  })
+  .refine((value) => {
+    const digitCount = value.replace(/\D/g, "").length;
+    return digitCount >= 7 && digitCount <= 15;
+  }, { message: "Enter a valid phone number" });
 
 type AuthMode = "signin" | "signup";
 
@@ -109,9 +122,9 @@ function CoffeeBean({ angle }: { angle: number }) {
 function RightPanel({ mode, setMode }: { mode: AuthMode; setMode: (m: AuthMode) => void }) {
   const isSignup = mode === "signup";
   return (
-    <div className="flex items-center justify-center px-5 py-28 sm:px-10 lg:py-16" data-parallax data-parallax-speed="0.08">
+    <div className={`flex items-center justify-center px-5 sm:px-10 ${isSignup ? "pb-5 pt-20 sm:py-10 lg:py-8" : "py-28 lg:py-16"}`} data-parallax data-parallax-speed="0.08">
       <div className="w-full max-w-md [perspective:1400px]">
-        <div className="relative min-h-[620px] transition-transform duration-700 [transform-style:preserve-3d]" style={{ transform: `rotateY(${isSignup ? 180 : 0}deg)` }}>
+        <div className={`relative transition-[transform,min-height] duration-700 [transform-style:preserve-3d] ${isSignup ? "min-h-[640px]" : "min-h-[620px]"}`} style={{ transform: `rotateY(${isSignup ? 180 : 0}deg)` }}>
           <AuthCard mode="signin" hidden={isSignup} onFlip={() => setMode("signup")} />
           <div className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden]">
             <AuthCard mode="signup" hidden={!isSignup} onFlip={() => setMode("signin")} />
@@ -125,23 +138,23 @@ function RightPanel({ mode, setMode }: { mode: AuthMode; setMode: (m: AuthMode) 
 function AuthCard({ mode, hidden, onFlip }: { mode: AuthMode; hidden: boolean; onFlip: () => void }) {
   const isSignup = mode === "signup";
   return (
-    <div aria-hidden={hidden} className="absolute inset-0 glass-panel rounded-3xl p-8 shadow-luxury [backface-visibility:hidden] sm:p-10">
+    <div aria-hidden={hidden} className={`absolute inset-0 glass-panel rounded-3xl shadow-luxury [backface-visibility:hidden] ${isSignup ? "p-6 sm:p-8" : "p-8 sm:p-10"}`}>
       <div className="mb-1 text-[11px] uppercase tracking-[0.3em] text-gold-ink">{isSignup ? "Join Mustafa" : "Welcome back"}</div>
-      <h1 className="font-display text-4xl leading-[1] text-foreground sm:text-5xl">
+      <h1 className={`font-display leading-[1] text-foreground ${isSignup ? "text-4xl" : "text-4xl sm:text-5xl"}`}>
         {isSignup ? <>Create your <em className="italic text-gold-gradient">account.</em></> : <>Sign in to your <em className="italic text-gold-gradient">account.</em></>}
       </h1>
       <AuthForm mode={mode} />
-      <div className="my-6 flex items-center gap-4 text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+      <div className={`${isSignup ? "my-4" : "my-6"} flex items-center gap-4 text-[10px] uppercase tracking-[0.25em] text-muted-foreground`}>
         <span className="h-px flex-1 bg-border" />
-        {isSignup ? "SignUp with" : "Or continue with"}
+        {isSignup ? "Or sign up with" : "Or continue with"}
         <span className="h-px flex-1 bg-border" />
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <SocialButton label="Google" icon={<GoogleIcon />} />
-        <SocialButton label="Apple" icon={<AppleIcon />} />
+        <SocialButton label="Google" icon={<GoogleIcon />} compact={isSignup} />
+        <SocialButton label="Apple" icon={<AppleIcon />} compact={isSignup} />
       </div>
-      <p className="mt-8 text-center text-sm text-muted-foreground">
-        {isSignup ? "Already have a account? " : "New here? "}
+      <p className={`${isSignup ? "mt-5" : "mt-8"} text-center text-sm text-muted-foreground`}>
+        {isSignup ? "Already have an account? " : "New here? "}
         <button type="button" onClick={onFlip} className="cursor-pointer text-gold-ink">
           {isSignup ? "Login" : "Create an account"}
         </button>
@@ -151,12 +164,14 @@ function AuthCard({ mode, hidden, onFlip }: { mode: AuthMode; hidden: boolean; o
 }
 
 function AuthForm({ mode }: { mode: AuthMode }) {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [remember, setRemember] = useState(true);
-  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ firstName?: string; lastName?: string; phone?: string; email?: string; password?: string }>({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const isSignup = mode === "signup";
@@ -164,7 +179,14 @@ function AuthForm({ mode }: { mode: AuthMode }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const next: typeof errors = {};
-    if (isSignup && name.trim().length < 2) next.name = "Enter your name";
+    if (isSignup) {
+      const firstNameResult = nameSchema.safeParse(firstName);
+      if (!firstNameResult.success) next.firstName = "Enter your first name";
+      const lastNameResult = nameSchema.safeParse(lastName);
+      if (!lastNameResult.success) next.lastName = "Enter your last name";
+      const phoneResult = phoneSchema.safeParse(phone);
+      if (!phoneResult.success) next.phone = phoneResult.error.issues[0].message;
+    }
     const emailResult = emailSchema.safeParse(email);
     if (!emailResult.success) next.email = emailResult.error.issues[0].message;
     const pwResult = passwordSchema.safeParse(password);
@@ -174,8 +196,17 @@ function AuthForm({ mode }: { mode: AuthMode }) {
     setSubmitting(true);
     const isAdminAccount = email.trim().toLowerCase().startsWith("admin");
     window.setTimeout(() => {
-      localStorage.setItem("mchUserName", isSignup ? name.trim() : email.split("@")[0] || "Guest");
+      const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
+      localStorage.setItem("mchUserName", isSignup ? fullName : email.split("@")[0] || "Guest");
       localStorage.setItem("mchIsAdmin", String(isAdminAccount));
+      if (isSignup) {
+        localStorage.setItem("mchFirstName", firstName.trim());
+        localStorage.setItem("mchLastName", lastName.trim());
+        localStorage.setItem("mchPhone", phone.trim());
+        localStorage.setItem("mchLoyaltyMember", "true");
+        localStorage.setItem("mchLoyaltyPhone", phone.trim());
+        localStorage.setItem("mchLoyaltyBeans", "250");
+      }
       setSubmitting(false);
       if (isAdminAccount) {
         window.location.href = "/admin";
@@ -186,10 +217,21 @@ function AuthForm({ mode }: { mode: AuthMode }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-4" noValidate>
-      {isSignup && <Field id="name" type="text" label="Name" value={name} onChange={setName} icon={User} placeholder="Your name" autoComplete="name" error={errors.name} />}
-      <Field id={`${mode}-email`} type="email" label="Email" value={email} onChange={setEmail} icon={Mail} placeholder="you@example.com" autoComplete="email" error={errors.email} />
-      <Field id={`${mode}-password`} type={showPw ? "text" : "password"} label="Password" value={password} onChange={setPassword} icon={Lock} placeholder="Password" autoComplete={isSignup ? "new-password" : "current-password"} error={errors.password} rightSlot={<button type="button" onClick={() => setShowPw((v) => !v)} className="cursor-pointer text-muted-foreground" aria-label={showPw ? "Hide password" : "Show password"}>{showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
+    <form onSubmit={handleSubmit} className={isSignup ? "mt-5 space-y-3" : "mt-8 space-y-4"} noValidate>
+      {isSignup && (
+        <>
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+            <Field id="first-name" type="text" label="First name" value={firstName} onChange={setFirstName} icon={User} placeholder="First name" autoComplete="given-name" error={errors.firstName} compact />
+            <Field id="last-name" type="text" label="Last name" value={lastName} onChange={setLastName} icon={User} placeholder="Last name" autoComplete="family-name" error={errors.lastName} compact />
+          </div>
+          <Field id="phone" type="tel" label="Phone number" value={phone} onChange={setPhone} icon={Phone} placeholder="(555) 123-4567" autoComplete="tel" inputMode="tel" error={errors.phone} compact />
+          <p className="-mt-1 rounded-xl bg-gold/8 px-3 py-1.5 text-[10px] leading-4 text-muted-foreground">
+            Your phone becomes your loyalty ID · 250 welcome points
+          </p>
+        </>
+      )}
+      <Field id={`${mode}-email`} type="email" label="Email" value={email} onChange={setEmail} icon={Mail} placeholder="you@example.com" autoComplete="email" error={errors.email} compact={isSignup} />
+      <Field id={`${mode}-password`} type={showPw ? "text" : "password"} label="Password" value={password} onChange={setPassword} icon={Lock} placeholder="Password" autoComplete={isSignup ? "new-password" : "current-password"} error={errors.password} compact={isSignup} rightSlot={<button type="button" onClick={() => setShowPw((v) => !v)} className="cursor-pointer text-muted-foreground" aria-label={showPw ? "Hide password" : "Show password"}>{showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
       {!isSignup && (
         <div className="mt-3 flex items-center justify-between text-xs">
           <label className="inline-flex cursor-pointer items-center gap-2 text-muted-foreground">
@@ -198,21 +240,26 @@ function AuthForm({ mode }: { mode: AuthMode }) {
           <a href="#" className="cursor-pointer text-gold-ink">Forgot password?</a>
         </div>
       )}
-      <button type="submit" disabled={submitting || success} className="mt-2 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow disabled:cursor-not-allowed disabled:opacity-70">
+      <button type="submit" disabled={submitting || success} className={`mt-2 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 text-sm font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow disabled:cursor-not-allowed disabled:opacity-70 ${isSignup ? "py-3" : "py-3.5"}`}>
         {success ? (isSignup ? "Account created" : "Signed in") : submitting ? "Brewing..." : isSignup ? "Create account" : "Sign in"}
         {!submitting && !success && <ArrowUpRight className="h-4 w-4" />}
       </button>
+      {success && isSignup && (
+        <p role="status" className="text-center text-xs leading-5 text-gold-ink">
+          You’re enrolled in loyalty. Your 250 welcome points are ready.
+        </p>
+      )}
     </form>
   );
 }
 
-function Field({ id, type, label, value, onChange, icon: Icon, placeholder, autoComplete, error, rightSlot }: { id: string; type: string; label: string; value: string; onChange: (v: string) => void; icon: React.ComponentType<{ className?: string }>; placeholder?: string; autoComplete?: string; error?: string; rightSlot?: React.ReactNode }) {
+function Field({ id, type, label, value, onChange, icon: Icon, placeholder, autoComplete, inputMode, error, rightSlot, compact = false }: { id: string; type: string; label: string; value: string; onChange: (v: string) => void; icon: React.ComponentType<{ className?: string }>; placeholder?: string; autoComplete?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"]; error?: string; rightSlot?: React.ReactNode; compact?: boolean }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{label}</label>
-      <div className={`flex items-center gap-3 rounded-2xl border bg-background px-4 py-3 transition focus-within:border-gold focus-within:shadow-glow ${error ? "border-destructive/60" : "border-border"}`}>
+      <label htmlFor={id} className={`${compact ? "mb-1" : "mb-1.5"} block text-[10px] uppercase tracking-[0.25em] text-muted-foreground`}>{label}</label>
+      <div className={`flex items-center gap-3 rounded-2xl border bg-background transition focus-within:border-gold focus-within:shadow-glow ${compact ? "px-3.5 py-2.5" : "px-4 py-3"} ${error ? "border-destructive/60" : "border-border"}`}>
         <Icon className="h-4 w-4 shrink-0 text-gold-ink" />
-        <input id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} autoComplete={autoComplete} className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none" />
+        <input id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} autoComplete={autoComplete} inputMode={inputMode} className="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none" />
         {rightSlot}
       </div>
       {error && <p className="mt-1.5 text-xs text-destructive">{error}</p>}
@@ -220,8 +267,8 @@ function Field({ id, type, label, value, onChange, icon: Icon, placeholder, auto
   );
 }
 
-function SocialButton({ label, icon }: { label: string; icon: React.ReactNode }) {
-  return <button type="button" className="relative inline-flex h-11 cursor-pointer items-center justify-center rounded-full border border-border bg-background px-4 text-xs uppercase tracking-[0.2em] text-muted-foreground"><span className="absolute left-4 grid h-4 w-4 shrink-0 place-items-center">{icon}</span><span className="text-center">{label}</span></button>;
+function SocialButton({ label, icon, compact = false }: { label: string; icon: React.ReactNode; compact?: boolean }) {
+  return <button type="button" className={`relative inline-flex cursor-pointer items-center justify-center rounded-full border border-border bg-background px-4 text-xs uppercase tracking-[0.2em] text-muted-foreground ${compact ? "h-10" : "h-11"}`}><span className="absolute left-4 grid h-4 w-4 shrink-0 place-items-center">{icon}</span><span className="text-center">{label}</span></button>;
 }
 
 function GoogleIcon() {

@@ -82,6 +82,29 @@ const REWARDS = [
 function LoyaltyPage() {
   const [beans, setBeans] = useState(500);
   const [claimed, setClaimed] = useState<string[]>([]);
+  const [member, setMember] = useState({ isRegistered: false, name: "Guest of the House", phone: "" });
+
+  useEffect(() => {
+    const isRegistered = localStorage.getItem("mchLoyaltyMember") === "true";
+    if (!isRegistered) return;
+
+    const savedBeansValue = localStorage.getItem("mchLoyaltyBeans");
+    const savedBeans = savedBeansValue === null ? 250 : Number(savedBeansValue);
+    const firstName = localStorage.getItem("mchFirstName")?.trim() ?? "";
+    const lastName = localStorage.getItem("mchLastName")?.trim() ?? "";
+    const name = `${firstName} ${lastName}`.trim() || localStorage.getItem("mchUserName") || "Loyalty Member";
+
+    if (Number.isFinite(savedBeans) && savedBeans >= 0) setBeans(savedBeans);
+    setMember({
+      isRegistered: true,
+      name,
+      phone: localStorage.getItem("mchLoyaltyPhone") || localStorage.getItem("mchPhone") || "",
+    });
+  }, []);
+
+  useEffect(() => {
+    if (member.isRegistered) localStorage.setItem("mchLoyaltyBeans", String(beans));
+  }, [beans, member.isRegistered]);
 
   const currentTierIdx = useMemo(() => {
     return TIERS.reduce((acc, t, i) => (beans >= t.min ? i : acc), 0);
@@ -106,6 +129,8 @@ function LoyaltyPage() {
           tier={currentTier}
           nextTier={nextTier}
           progress={progress}
+          memberName={member.name}
+          memberPhone={member.phone}
           onEarn={() => {
             setBeans((b) => b + 25);
             playClink();
@@ -125,12 +150,16 @@ function LoyaltyHero({
   tier,
   nextTier,
   progress,
+  memberName,
+  memberPhone,
   onEarn,
 }: {
   beans: number;
   tier: (typeof TIERS)[number];
   nextTier?: (typeof TIERS)[number];
   progress: number;
+  memberName: string;
+  memberPhone: string;
   onEarn: () => void;
 }) {
   return (
@@ -171,6 +200,8 @@ function LoyaltyHero({
           tier={tier}
           nextTier={nextTier}
           progress={progress}
+          memberName={memberName}
+          memberPhone={memberPhone}
         />
       </div>
     </section>
@@ -182,11 +213,15 @@ function BeanCard({
   tier,
   nextTier,
   progress,
+  memberName,
+  memberPhone,
 }: {
   beans: number;
   tier: (typeof TIERS)[number];
   nextTier?: (typeof TIERS)[number];
   progress: number;
+  memberName: string;
+  memberPhone: string;
 }) {
   const [t, setT] = useState({ x: 0, y: 0 });
   const onMove = (e: React.MouseEvent) => {
@@ -219,8 +254,13 @@ function BeanCard({
                 Member
               </div>
               <div className="mt-1 font-display text-lg text-foreground">
-                Guest of the House
+                {memberName}
               </div>
+              {memberPhone && (
+                <div className="mt-0.5 text-[10px] tracking-[0.12em] text-muted-foreground">
+                  {memberPhone}
+                </div>
+              )}
             </div>
             <span
               className={`grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br ${tier.color} text-espresso shadow-glow`}
