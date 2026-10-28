@@ -1,18 +1,18 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import {
+  Activity,
   ArrowUpRight,
-  Bell,
+  CircleAlert,
   ClipboardList,
   DollarSign,
-  Package,
-  Sparkles,
-  Store,
+  PackageSearch,
+  ShieldCheck,
+  Timer,
   Users,
-  BadgeCheck,
-  Truck,
 } from "lucide-react";
-import { SiteNav } from "@/components/nav";
-import { SiteFooter } from "@/components/footer";
+import { AdminShell } from "@/components/admin/admin-shell";
+import { AnalyticsPanel, KpiCard } from "@/components/admin/dashboard-widgets";
+import { getAdminSession } from "@/lib/admin-auth";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -21,219 +21,179 @@ export const Route = createFileRoute("/admin")({
       {
         name: "description",
         content:
-          "Monitor orders, revenue, stores, inventory, and loyalty activity from one polished admin dashboard.",
+          "Protected operations dashboard for Mustafa Coffee House administrators.",
       },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
+  beforeLoad: async () => {
+    const session = await getAdminSession();
+    if (!session.authenticated) {
+      throw redirect({ to: "/admin/login" });
+    }
+    return { adminSession: session };
+  },
   component: AdminDashboardPage,
 });
 
-const KPI_CARDS = [
-  { label: "Orders today", value: "148", delta: "+12%", icon: ClipboardList },
-  { label: "Revenue today", value: "$4.2k", delta: "+8.4%", icon: DollarSign },
-  { label: "Average prep", value: "6.2m", delta: "-0.8m", icon: Sparkles },
-  { label: "Active stores", value: "3", delta: "All online", icon: Store },
-  { label: "Loyalty members", value: "8.4k", delta: "+214", icon: Users },
-  { label: "Low inventory flags", value: "4", delta: "Needs review", icon: Package },
+const DASHBOARD_METRICS = [
+  { title: "Orders today", icon: ClipboardList },
+  { title: "Revenue today", icon: DollarSign },
+  { title: "Average preparation", icon: Timer },
+  { title: "Loyalty activity", icon: Users },
 ];
 
-const ADMIN_TOOLS = [
+const OPERATION_LINKS = [
   {
-    title: "Order queue",
-    body: "Prioritize walk-ins, pickups, refunds, and order edits in one live feed.",
+    title: "Order management",
+    description:
+      "Review and manage incoming orders from the protected workspace.",
+    to: "/admin/orders",
     icon: ClipboardList,
   },
   {
-    title: "Menu management",
-    body: "Update product availability, pricing, photos, and category ordering.",
-    icon: Package,
+    title: "Reservation management",
+    description:
+      "Review booking activity and prepare for reservation operations.",
+    to: "/admin/reservations",
+    icon: Activity,
   },
   {
-    title: "Store ops",
-    body: "Adjust hours, pickup rules, prep targets, and location-specific notes.",
-    icon: Store,
-  },
-  {
-    title: "Promotions",
-    body: "Launch home page banners, offers, and loyalty boosts with one toggle.",
-    icon: Sparkles,
-  },
-  {
-    title: "Staff coverage",
-    body: "See who is on shift, assign stations, and review task completion.",
+    title: "Loyalty management",
+    description:
+      "Review the protected member and rewards management workspace.",
+    to: "/admin/loyalty",
     icon: Users,
-  },
-  {
-    title: "Alerts",
-    body: "Watch service issues, stockouts, and guest feedback without leaving the page.",
-    icon: Bell,
   },
 ];
 
 function AdminDashboardPage() {
+  const { adminSession } = Route.useRouteContext();
+
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-hero text-foreground">
-      <SiteNav adminMode showSignIn={false} />
-      <main className="mx-auto flex-1 max-w-7xl px-5 pb-32 pt-36 sm:px-8 lg:pt-44">
-        <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+    <AdminShell adminIdentifier={adminSession.identifier ?? "Administrator"}>
+      <section className="flex flex-col justify-between gap-5 border-b border-border pb-7 sm:flex-row sm:items-end">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-lg border border-gold/25 bg-gold-soft/20 px-3 py-1.5 text-xs font-semibold text-gold-ink">
+            <ShieldCheck className="h-4 w-4" />
+            Protected workspace
+          </div>
+          <h1 className="mt-4 font-display text-4xl tracking-tight text-foreground sm:text-5xl">
+            Operations overview
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+            Monitor connected business activity and move quickly into the
+            protected administrative management areas.
+          </p>
+        </div>
+        <div className="rounded-xl border border-border bg-background px-4 py-3 text-sm shadow-sm">
+          <div className="flex items-center gap-2 font-medium text-foreground">
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+            Secure session active
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Business data source not connected
+          </p>
+        </div>
+      </section>
+
+      <section className="mt-7" aria-labelledby="summary-heading">
+        <div className="mb-4 flex items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-[11px] uppercase tracking-[0.25em] text-gold-ink">
-              <BadgeCheck className="h-3.5 w-3.5" />
-              Admin console
-            </div>
-            <h1 className="mt-6 font-display text-[clamp(2.8rem,6vw,6rem)] leading-[0.95] tracking-tight text-foreground">
-              One place to run the{" "}
-              <em className="italic text-gold-gradient">whole house.</em>
-            </h1>
-            <p className="mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg">
-              A polished operations dashboard for Mustafa Coffee House. Keep an
-              eye on orders, staff, stores, menu changes, and revenue without
-              jumping between screens.
+            <h2
+              id="summary-heading"
+              className="text-base font-semibold text-foreground"
+            >
+              Performance summary
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Live metrics appear once a data source is connected.
             </p>
           </div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {DASHBOARD_METRICS.map((metric) => (
+            <KpiCard
+              key={metric.title}
+              title={metric.title}
+              value={null}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+      </section>
 
-          <div className="glass-panel rounded-[2rem] p-6 shadow-luxury">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-[11px] uppercase tracking-[0.28em] text-gold-ink">
-                  Live pulse
-                </div>
-                <div className="mt-1 font-display text-2xl text-foreground">
-                  Today at a glance
-                </div>
-              </div>
-              <div className="rounded-full border border-gold/40 bg-gold-soft/30 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-gold-ink">
-                Updating now
-              </div>
-            </div>
-            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-              {KPI_CARDS.slice(0, 6).map((card) => {
-                const Icon = card.icon;
-                return (
-                  <div
-                    key={card.label}
-                    className="rounded-[1.5rem] border border-border bg-background p-4 shadow-sm"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="text-[10px] uppercase tracking-[0.24em] text-gold-ink">
-                          {card.label}
-                        </div>
-                        <div className="mt-2 font-display text-3xl text-foreground">
-                          {card.value}
-                        </div>
-                      </div>
-                      <span className="grid h-10 w-10 place-items-center rounded-full bg-gold-soft/35 text-gold-ink">
-                        <Icon className="h-4 w-4" />
-                      </span>
-                    </div>
-                    <div className="mt-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                      {card.delta}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+      <section className="mt-7 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(300px,0.7fr)]">
+        <AnalyticsPanel data={[]} />
 
-        <section className="mt-12 grid gap-6 lg:grid-cols-3">
-          {ADMIN_TOOLS.map((tool, index) => {
-            const Icon = tool.icon;
-            return (
-              <article
-                key={tool.title}
-                className="rounded-[2rem] border border-border bg-card p-6 shadow-luxury"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    0{index + 1}
-                  </span>
-                </div>
-                <h2 className="mt-5 font-display text-3xl text-foreground">
-                  {tool.title}
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {tool.body}
-                </p>
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-4 text-xs uppercase tracking-[0.18em] text-gold-ink">
-                  <span>Open module</span>
-                  <ArrowUpRight className="h-4 w-4" />
-                </div>
-              </article>
-            );
-          })}
-        </section>
-
-        <section className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-[2rem] border border-border bg-card p-6 shadow-luxury">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
-              Admin actions
-            </div>
-            <h2 className="mt-3 font-display text-4xl text-foreground">
-              Everything an admin can do.
-            </h2>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {[
-                "Manage menu items and prices",
-                "Turn products on or off",
-                "Update store hours and pickup rules",
-                "Track inventory warnings",
-                "Review new orders and refunds",
-                "Send promotions to guests",
-                "Monitor loyalty and VIP activity",
-                "Export sales and daily summaries",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-start gap-3 rounded-2xl border border-border bg-background px-4 py-3"
-                >
-                  <span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full bg-gold-soft/40 text-gold-ink">
-                    <Truck className="h-3.5 w-3.5" />
-                  </span>
-                  <span className="text-sm text-foreground">{item}</span>
-                </div>
-              ))}
-            </div>
-          </article>
-
-          <aside className="rounded-[2rem] border border-border bg-gradient-to-br from-background via-card to-muted p-6 shadow-luxury">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
-              Quick links
-            </div>
-            <div className="mt-4 space-y-3">
-              {[
-                { label: "Open order page", to: "/order" },
-                { label: "Check live menu", to: "/menu" },
-                { label: "Review loyalty", to: "/loyalty" },
-                { label: "View reservations", to: "/reserve" },
-              ].map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.to}
-                  className="flex items-center justify-between rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground transition hover:border-gold hover:text-gold-ink"
-                >
-                  {item.label}
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              ))}
-            </div>
-            <div className="mt-6 rounded-[1.5rem] border border-border bg-background/85 p-4">
-              <div className="text-[11px] uppercase tracking-[0.24em] text-gold-ink">
-                Notes
-              </div>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                This dashboard is set up to look polished at a glance, with KPI
-                tiles up top and the main operational actions grouped below.
+        <aside className="rounded-2xl border border-border bg-background p-5 shadow-sm sm:p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-foreground">
+                Operational alerts
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Issues requiring attention
               </p>
             </div>
-          </aside>
-        </section>
-      </main>
-      <SiteFooter />
-    </div>
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-muted text-muted-foreground">
+              <CircleAlert className="h-4 w-4" />
+            </span>
+          </div>
+          <div className="mt-6 grid min-h-56 place-items-center rounded-xl border border-dashed border-border bg-muted/25 px-5 text-center">
+            <div>
+              <PackageSearch className="mx-auto h-6 w-6 text-muted-foreground" />
+              <h3 className="mt-3 text-sm font-semibold text-foreground">
+                No alert feed connected
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Inventory and service alerts will appear here when an operations
+                backend is available.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section className="mt-7" aria-labelledby="operations-heading">
+        <div>
+          <h2
+            id="operations-heading"
+            className="text-base font-semibold text-foreground"
+          >
+            Management areas
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Open protected tools without leaving the admin workspace.
+          </p>
+        </div>
+
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          {OPERATION_LINKS.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="group rounded-2xl border border-border bg-background p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft/30 text-gold-ink">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 text-muted-foreground transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold-ink" />
+                </div>
+                <h3 className="mt-5 text-sm font-semibold text-foreground">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {item.description}
+                </p>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+    </AdminShell>
   );
 }

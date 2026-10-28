@@ -15,6 +15,7 @@ import { Route as MenuRouteImport } from './routes/menu'
 import { Route as LoyaltyRouteImport } from './routes/loyalty'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FranchiseRouteImport } from './routes/franchise'
+import { Route as DownloadRouteImport } from './routes/download'
 import { Route as CoreValuesRouteImport } from './routes/core-values'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CartRouteImport } from './routes/cart'
@@ -23,6 +24,11 @@ import { Route as BrandPromiseRouteImport } from './routes/brand-promise'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminReservationsRouteImport } from './routes/admin_.reservations'
+import { Route as AdminOrdersRouteImport } from './routes/admin_.orders'
+import { Route as AdminLoyaltyRouteImport } from './routes/admin_.loyalty'
+import { Route as AdminLoginRouteImport } from './routes/admin_.login'
+import { Route as AdminDownloadsRouteImport } from './routes/admin_.downloads'
 
 const ReserveRoute = ReserveRouteImport.update({
   id: '/reserve',
@@ -52,6 +58,11 @@ const LoginRoute = LoginRouteImport.update({
 const FranchiseRoute = FranchiseRouteImport.update({
   id: '/franchise',
   path: '/franchise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadRoute = DownloadRouteImport.update({
+  id: '/download',
+  path: '/download',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoreValuesRoute = CoreValuesRouteImport.update({
@@ -94,6 +105,31 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminReservationsRoute = AdminReservationsRouteImport.update({
+  id: '/admin_/reservations',
+  path: '/admin/reservations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/admin_/orders',
+  path: '/admin/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoyaltyRoute = AdminLoyaltyRouteImport.update({
+  id: '/admin_/loyalty',
+  path: '/admin/loyalty',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin_/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDownloadsRoute = AdminDownloadsRouteImport.update({
+  id: '/admin_/downloads',
+  path: '/admin/downloads',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -104,12 +140,18 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/core-values': typeof CoreValuesRoute
+  '/download': typeof DownloadRoute
   '/franchise': typeof FranchiseRoute
   '/login': typeof LoginRoute
   '/loyalty': typeof LoyaltyRoute
   '/menu': typeof MenuRoute
   '/order': typeof OrderRoute
   '/reserve': typeof ReserveRoute
+  '/admin/downloads': typeof AdminDownloadsRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/loyalty': typeof AdminLoyaltyRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/reservations': typeof AdminReservationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -120,12 +162,18 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/core-values': typeof CoreValuesRoute
+  '/download': typeof DownloadRoute
   '/franchise': typeof FranchiseRoute
   '/login': typeof LoginRoute
   '/loyalty': typeof LoyaltyRoute
   '/menu': typeof MenuRoute
   '/order': typeof OrderRoute
   '/reserve': typeof ReserveRoute
+  '/admin/downloads': typeof AdminDownloadsRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/loyalty': typeof AdminLoyaltyRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/reservations': typeof AdminReservationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -137,12 +185,18 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/core-values': typeof CoreValuesRoute
+  '/download': typeof DownloadRoute
   '/franchise': typeof FranchiseRoute
   '/login': typeof LoginRoute
   '/loyalty': typeof LoyaltyRoute
   '/menu': typeof MenuRoute
   '/order': typeof OrderRoute
   '/reserve': typeof ReserveRoute
+  '/admin_/downloads': typeof AdminDownloadsRoute
+  '/admin_/login': typeof AdminLoginRoute
+  '/admin_/loyalty': typeof AdminLoyaltyRoute
+  '/admin_/orders': typeof AdminOrdersRoute
+  '/admin_/reservations': typeof AdminReservationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -155,12 +209,18 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/core-values'
+    | '/download'
     | '/franchise'
     | '/login'
     | '/loyalty'
     | '/menu'
     | '/order'
     | '/reserve'
+    | '/admin/downloads'
+    | '/admin/login'
+    | '/admin/loyalty'
+    | '/admin/orders'
+    | '/admin/reservations'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -171,12 +231,18 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/core-values'
+    | '/download'
     | '/franchise'
     | '/login'
     | '/loyalty'
     | '/menu'
     | '/order'
     | '/reserve'
+    | '/admin/downloads'
+    | '/admin/login'
+    | '/admin/loyalty'
+    | '/admin/orders'
+    | '/admin/reservations'
   id:
     | '__root__'
     | '/'
@@ -187,12 +253,18 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/core-values'
+    | '/download'
     | '/franchise'
     | '/login'
     | '/loyalty'
     | '/menu'
     | '/order'
     | '/reserve'
+    | '/admin_/downloads'
+    | '/admin_/login'
+    | '/admin_/loyalty'
+    | '/admin_/orders'
+    | '/admin_/reservations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -204,12 +276,18 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   ContactRoute: typeof ContactRoute
   CoreValuesRoute: typeof CoreValuesRoute
+  DownloadRoute: typeof DownloadRoute
   FranchiseRoute: typeof FranchiseRoute
   LoginRoute: typeof LoginRoute
   LoyaltyRoute: typeof LoyaltyRoute
   MenuRoute: typeof MenuRoute
   OrderRoute: typeof OrderRoute
   ReserveRoute: typeof ReserveRoute
+  AdminDownloadsRoute: typeof AdminDownloadsRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminLoyaltyRoute: typeof AdminLoyaltyRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminReservationsRoute: typeof AdminReservationsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -254,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/franchise'
       fullPath: '/franchise'
       preLoaderRoute: typeof FranchiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/download': {
+      id: '/download'
+      path: '/download'
+      fullPath: '/download'
+      preLoaderRoute: typeof DownloadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/core-values': {
@@ -312,6 +397,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/reservations': {
+      id: '/admin_/reservations'
+      path: '/admin/reservations'
+      fullPath: '/admin/reservations'
+      preLoaderRoute: typeof AdminReservationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/orders': {
+      id: '/admin_/orders'
+      path: '/admin/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/loyalty': {
+      id: '/admin_/loyalty'
+      path: '/admin/loyalty'
+      fullPath: '/admin/loyalty'
+      preLoaderRoute: typeof AdminLoyaltyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/login': {
+      id: '/admin_/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/downloads': {
+      id: '/admin_/downloads'
+      path: '/admin/downloads'
+      fullPath: '/admin/downloads'
+      preLoaderRoute: typeof AdminDownloadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -324,12 +444,18 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   ContactRoute: ContactRoute,
   CoreValuesRoute: CoreValuesRoute,
+  DownloadRoute: DownloadRoute,
   FranchiseRoute: FranchiseRoute,
   LoginRoute: LoginRoute,
   LoyaltyRoute: LoyaltyRoute,
   MenuRoute: MenuRoute,
   OrderRoute: OrderRoute,
   ReserveRoute: ReserveRoute,
+  AdminDownloadsRoute: AdminDownloadsRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminLoyaltyRoute: AdminLoyaltyRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
+  AdminReservationsRoute: AdminReservationsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

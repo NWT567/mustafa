@@ -2,3 +2,5 @@ node_modules
 .vercel
 .output
 dist
+.env*
+!.env.example

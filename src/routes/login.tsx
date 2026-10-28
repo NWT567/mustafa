@@ -194,11 +194,9 @@ function AuthForm({ mode }: { mode: AuthMode }) {
     setErrors(next);
     if (Object.keys(next).length > 0) return;
     setSubmitting(true);
-    const isAdminAccount = email.trim().toLowerCase().startsWith("admin");
     window.setTimeout(() => {
       const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
       localStorage.setItem("mchUserName", isSignup ? fullName : email.split("@")[0] || "Guest");
-      localStorage.setItem("mchIsAdmin", String(isAdminAccount));
       if (isSignup) {
         localStorage.setItem("mchFirstName", firstName.trim());
         localStorage.setItem("mchLastName", lastName.trim());
@@ -208,10 +206,6 @@ function AuthForm({ mode }: { mode: AuthMode }) {
         localStorage.setItem("mchLoyaltyBeans", "250");
       }
       setSubmitting(false);
-      if (isAdminAccount) {
-        window.location.href = "/admin";
-        return;
-      }
       setSuccess(true);
     }, 700);
   };

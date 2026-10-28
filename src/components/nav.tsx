@@ -8,17 +8,16 @@ const LINKS: { to: string; label: string }[] = [
   { to: "/about", label: "About" },
   { to: "/loyalty", label: "Loyalty" },
   { to: "/franchise", label: "Franchise" },
+  { to: "/download", label: "Download" },
   { to: "/contact", label: "Contact Us" },
 ];
 
 export function SiteNav({
   extras,
   showSignIn = true,
-  adminMode = false,
 }: {
   extras?: ReactNode;
   showSignIn?: boolean;
-  adminMode?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
@@ -26,12 +25,6 @@ export function SiteNav({
   const location = useLocation();
   const isOrderRoute = location.pathname === "/order";
   const links = LINKS;
-  const isAdminRoute = adminMode || location.pathname === "/admin";
-  const handleLogout = () => {
-    localStorage.removeItem("mchIsAdmin");
-    localStorage.removeItem("mchUserName");
-    window.location.href = "/login";
-  };
 
   const handleNavMove = (event: MouseEvent<HTMLDivElement>) => {
     const nav = navRef.current;
@@ -72,74 +65,58 @@ export function SiteNav({
               className="h-11 w-auto max-w-[13rem] origin-left transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.02] motion-reduce:transform-none sm:h-12 lg:h-14"
             />
           </Link>
-          {!isAdminRoute && (
-            <nav className="hidden items-center justify-center gap-7 text-sm text-muted-foreground lg:flex">
-              {links.map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to}
-                  className="group relative -my-2 px-1 py-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:text-gold-ink motion-reduce:transform-none"
-                  activeProps={{ className: "text-gold-ink" }}
-                >
-                  <span>{l.label}</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-x-1 bottom-1 h-px origin-center scale-x-0 bg-gradient-to-r from-caramel via-gold to-caramel transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
-                  />
-                </Link>
-              ))}
-            </nav>
-          )}
-          <div className="flex items-center justify-end gap-2">
-            {isAdminRoute ? (
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="group inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none"
+          <nav className="hidden items-center justify-center gap-7 text-sm text-muted-foreground lg:flex">
+            {links.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                className="group relative -my-2 px-1 py-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:text-gold-ink motion-reduce:transform-none"
+                activeProps={{ className: "text-gold-ink" }}
               >
-                Logout
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" />
-              </button>
-            ) : (
-              <>
-                {extras}
-                {showSignIn && (
-                  <Link
-                    to="/login"
-                    className="hidden rounded-full border border-border px-4 py-2 text-xs uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none sm:inline-flex"
-                  >
-                    Sign in
-                  </Link>
-                )}
-                {!isOrderRoute && (
-                  <Link
-                    to="/order"
-                    className="group hidden items-center gap-1.5 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-espresso shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:brightness-110 motion-reduce:transform-none lg:inline-flex"
-                  >
-                    Order
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" />
-                  </Link>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setOpen(true)}
-                  aria-label="Open menu"
-                  className="group grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none lg:hidden"
-                >
-                  <Menu className="h-4 w-4 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 motion-reduce:transform-none" />
-                </button>
-              </>
+                <span>{l.label}</span>
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-1 bottom-1 h-px origin-center scale-x-0 bg-gradient-to-r from-caramel via-gold to-caramel transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                />
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center justify-end gap-2">
+            {extras}
+            {showSignIn && (
+              <Link
+                to="/login"
+                className="hidden rounded-full border border-border px-4 py-2 text-xs uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none sm:inline-flex"
+              >
+                Sign in
+              </Link>
             )}
+            {!isOrderRoute && (
+              <Link
+                to="/order"
+                className="group hidden items-center gap-1.5 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-espresso shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:brightness-110 motion-reduce:transform-none lg:inline-flex"
+              >
+                Order
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" />
+              </Link>
+            )}
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              className="group grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none lg:hidden"
+            >
+              <Menu className="h-4 w-4 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 motion-reduce:transform-none" />
+            </button>
           </div>
         </div>
       </header>
 
       {/* Mobile slide-in drawer */}
-      {!isAdminRoute && (
-        <div
-          className={`fixed inset-0 z-50 lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"}`}
-          aria-hidden={!open}
-        >
+      <div
+        className={`fixed inset-0 z-50 lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+        aria-hidden={!open}
+      >
         <div
           onClick={() => setOpen(false)}
           className={`absolute inset-0 bg-black/30 backdrop-blur-md transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
@@ -202,8 +179,7 @@ export function SiteNav({
             </p>
           </div>
         </aside>
-        </div>
-      )}
+      </div>
     </>
   );
 }
