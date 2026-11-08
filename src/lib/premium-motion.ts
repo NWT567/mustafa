@@ -17,6 +17,9 @@ async function install() {
   if (typeof window === "undefined") return;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) return;
+  const finePointer = window.matchMedia(
+    "(hover: hover) and (pointer: fine)",
+  ).matches;
 
   const [{ default: Lenis }, gsapMod, stMod, splitMod] = await Promise.all([
     import("lenis"),
@@ -80,7 +83,9 @@ async function install() {
       if (h.dataset.pmSplit) return;
       try {
         // Remember gold-gradient nodes so we can restore fill after SplitType wraps chars.
-        const goldNodes = Array.from(h.querySelectorAll<HTMLElement>(".text-gold-gradient"));
+        const goldNodes = Array.from(
+          h.querySelectorAll<HTMLElement>(".text-gold-gradient"),
+        );
         const split = new SplitType(h, { types: "words,chars" });
 
         // Re-apply gradient clip on every generated char/word inside gold spans.
@@ -126,7 +131,9 @@ async function install() {
     });
 
     // 4) 3D tilt on hover for glass cards
-    const tiltEls = document.querySelectorAll<HTMLElement>(".glass-panel");
+    const tiltEls = finePointer
+      ? document.querySelectorAll<HTMLElement>(".glass-panel")
+      : [];
     tiltEls.forEach((el) => {
       if (el.dataset.pmTilt) return;
       el.style.transformStyle = "preserve-3d";
@@ -157,9 +164,11 @@ async function install() {
     });
 
     // 5) Magnetic buttons — pill-shaped CTAs
-    const magnets = document.querySelectorAll<HTMLElement>(
-      "a.rounded-full:not([data-no-magnetic]):not([data-no-motion]), button.rounded-full:not([data-no-magnetic]):not([data-no-motion])",
-    );
+    const magnets = finePointer
+      ? document.querySelectorAll<HTMLElement>(
+          "a.rounded-full:not([data-no-magnetic]):not([data-no-motion]), button.rounded-full:not([data-no-magnetic]):not([data-no-motion])",
+        )
+      : [];
     magnets.forEach((el) => {
       if (el.dataset.pmMag) return;
       const strength = 0.25;
@@ -191,7 +200,9 @@ async function install() {
     scrollParallax.forEach((el, i) => {
       if (el.dataset.pmScrollParallax) return;
       const rawSpeed = Number.parseFloat(el.dataset.parallaxSpeed ?? "");
-      const speed = Number.isFinite(rawSpeed) ? rawSpeed : 0.12 + (i % 4) * 0.04;
+      const speed = Number.isFinite(rawSpeed)
+        ? rawSpeed
+        : 0.12 + (i % 4) * 0.04;
       const distance = Math.max(12, Math.min(60, speed * 180));
       gsap.fromTo(
         el,
@@ -226,8 +237,10 @@ async function install() {
         });
       });
     };
-    window.addEventListener("mousemove", onWinMove, { passive: true });
-    cleanupFns.push(() => window.removeEventListener("mousemove", onWinMove));
+    if (finePointer) {
+      window.addEventListener("mousemove", onWinMove, { passive: true });
+      cleanupFns.push(() => window.removeEventListener("mousemove", onWinMove));
+    }
 
     ScrollTrigger.refresh();
   };

@@ -278,8 +278,8 @@ function ReservePage() {
               </p>
 
               {/* Date & time */}
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <label className="col-span-1 block">
+              <div className="mt-6 grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
+                <label className="block min-w-0">
                   <span className="mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-gold-ink">
                     <Calendar className="h-3 w-3" /> Date
                   </span>
@@ -290,10 +290,10 @@ function ReservePage() {
                       sfx.tap();
                       setDate(e.target.value);
                     }}
-                    className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground focus:border-gold focus:outline-none"
+                    className="min-h-11 w-full min-w-0 rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground focus:border-gold focus:outline-none"
                   />
                 </label>
-                <label className="col-span-1 block">
+                <label className="block min-w-0">
                   <span className="mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-gold-ink">
                     <Users className="h-3 w-3" /> Guests
                   </span>
@@ -303,7 +303,7 @@ function ReservePage() {
                         sfx.tap();
                         setGuests((g) => Math.max(1, g - 1));
                       }}
-                      className="grid h-6 w-6 place-items-center rounded-full text-muted-foreground hover:bg-gold/15 hover:text-gold-ink"
+                      className="grid h-8 w-8 place-items-center rounded-full text-muted-foreground hover:bg-gold/15 hover:text-gold-ink"
                       aria-label="Fewer guests"
                     >
                       -
@@ -316,7 +316,7 @@ function ReservePage() {
                         sfx.tap();
                         setGuests((g) => Math.min(12, g + 1));
                       }}
-                      className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-gold-soft to-caramel text-espresso"
+                      className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-soft to-caramel text-espresso"
                       aria-label="More guests"
                     >
                       +
@@ -339,7 +339,7 @@ function ReservePage() {
                           sfx.tap();
                           setTime(t);
                         }}
-                        className={`rounded-full px-3 py-1.5 text-xs uppercase tracking-[0.15em] transition ${
+                        className={`min-h-10 rounded-full px-3 py-1.5 text-xs uppercase tracking-[0.15em] transition ${
                           active
                             ? "bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow"
                             : "border border-border text-muted-foreground hover:border-gold hover:text-gold-ink"
@@ -366,7 +366,7 @@ function ReservePage() {
                           sfx.tap();
                           setOccasion(o);
                         }}
-                        className={`rounded-full px-3 py-1.5 text-xs uppercase tracking-[0.15em] transition ${
+                        className={`min-h-10 rounded-full px-3 py-1.5 text-xs uppercase tracking-[0.15em] transition ${
                           active
                             ? "bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow"
                             : "border border-border text-muted-foreground hover:border-gold hover:text-gold-ink"

@@ -24,7 +24,7 @@ export function AdminPageHeading({
 }) {
   return (
     <section className="flex flex-col justify-between gap-5 border-b border-border pb-7 sm:flex-row sm:items-end">
-      <div className="max-w-3xl">
+      <div className="min-w-0 max-w-3xl">
         <div className="inline-flex items-center gap-2 rounded-lg border border-gold/25 bg-gold-soft/20 px-3 py-1.5 text-xs font-semibold text-gold-ink">
           <Icon className="h-4 w-4" />
           {eyebrow}
@@ -38,7 +38,7 @@ export function AdminPageHeading({
       </div>
       <Link
         to={publicHref}
-        className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 text-sm font-medium text-foreground shadow-sm transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+        className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-2 text-center text-sm font-medium text-foreground shadow-sm transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:w-auto sm:shrink-0"
       >
         {publicLabel}
         <ArrowUpRight className="h-4 w-4" />
@@ -53,7 +53,7 @@ export function AdminConnectionNotice({ children }: { children: ReactNode }) {
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-100">
         <DatabaseZap className="h-5 w-5" />
       </span>
-      <div>
+      <div className="min-w-0">
         <h2 className="text-sm font-semibold">Data connection required</h2>
         <p className="mt-1 text-sm leading-6 text-amber-900/75">{children}</p>
       </div>

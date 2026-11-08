@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="landing-page relative flex min-h-screen flex-col overflow-x-hidden bg-hero text-foreground">
+    <div className="landing-page relative flex min-h-screen min-w-0 flex-col bg-hero text-foreground">
       <AmbientBeans />
       <SiteNav />
       <Hero />
@@ -71,7 +71,7 @@ function Hero() {
               <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
           </div>
-          <div className="mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-border pt-6">
+          <div className="mt-14 grid max-w-lg grid-cols-3 gap-3 border-t border-border pt-6 sm:gap-6">
             <Stat kpi="120+" label="Signature drinks" />
             <Stat kpi="4.9" label="Guest rating" />
             <Stat kpi="24/7" label="Bean roasting" />
@@ -112,7 +112,9 @@ function Hero() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coffee">
                 Now brewing
               </div>
-              <div className="mt-1 font-display text-4xl leading-none text-caramel drop-shadow-[0_1px_0_rgba(255,255,255,0.55)]">42</div>
+              <div className="mt-1 font-display text-4xl leading-none text-caramel drop-shadow-[0_1px_0_rgba(255,255,255,0.55)]">
+                42
+              </div>
               <div className="mt-1 text-xs font-medium text-coffee/80">
                 cups today
               </div>
@@ -127,9 +129,7 @@ function Hero() {
 function Stat({ kpi, label }: { kpi: string; label: string }) {
   return (
     <div>
-      <div className="font-display text-2xl text-coffee sm:text-3xl">
-        {kpi}
-      </div>
+      <div className="font-display text-2xl text-coffee sm:text-3xl">{kpi}</div>
       <div className="mt-1 text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
         {label}
       </div>
@@ -229,7 +229,9 @@ function Marquee() {
             key={i}
             className="flex shrink-0 items-center gap-4 rounded-full border border-border/70 bg-background/80 px-4 py-2 shadow-sm backdrop-blur sm:gap-5 sm:px-5"
           >
-            <span className="uppercase tracking-[0.2em] text-gold-ink">{t}</span>
+            <span className="uppercase tracking-[0.2em] text-gold-ink">
+              {t}
+            </span>
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
           </span>
         ))}
@@ -262,11 +264,11 @@ function SignatureSection() {
               preload="metadata"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-espresso/78 via-espresso/45 to-background/25" />
-            <div className="relative z-10 flex h-full flex-col justify-between p-8 sm:p-10">
+            <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-10">
               {/* <div className="inline-flex w-fit rounded-full border border-background/20 bg-background/88 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-espresso shadow-sm">
                 The Craft
               </div> */}
-              <h2 className="max-w-sm font-display text-5xl leading-[0.95] text-background drop-shadow-[0_3px_12px_rgba(0,0,0,0.65)] sm:text-6xl">
+              <h2 className="max-w-sm font-display text-4xl leading-[0.95] text-background drop-shadow-[0_3px_12px_rgba(0,0,0,0.65)] min-[400px]:text-5xl sm:text-6xl">
                 Twelve <em className="italic text-gold-soft">seconds</em> of
                 silence before the pour.
               </h2>
@@ -380,7 +382,11 @@ function GuestReviewsSection() {
           <button
             type="button"
             data-no-magnetic
-            onClick={() => setPage((current) => (current === 0 ? reviewPages.length - 1 : current - 1))}
+            onClick={() =>
+              setPage((current) =>
+                current === 0 ? reviewPages.length - 1 : current - 1,
+              )
+            }
             aria-label="Previous reviews"
             className="absolute left-0 top-1/2 z-10 hidden h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-coffee/70 text-cream shadow-luxury transition hover:bg-coffee lg:grid"
           >
@@ -389,31 +395,48 @@ function GuestReviewsSection() {
           <button
             type="button"
             data-no-magnetic
-            onClick={() => setPage((current) => (current + 1) % reviewPages.length)}
+            onClick={() =>
+              setPage((current) => (current + 1) % reviewPages.length)
+            }
             aria-label="Next reviews"
             className="absolute right-0 top-1/2 z-10 hidden h-11 w-11 translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-coffee/70 text-cream shadow-luxury transition hover:bg-coffee lg:grid"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
 
-          <div key={page} className="review-page grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div
+            key={page}
+            className="review-page grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4"
+          >
             {activeReviews.map((review) => (
-              <article key={review.name} className="flex min-h-[22rem] flex-col rounded-[0.75rem] border border-border bg-background/96 p-7 shadow-luxury transition duration-300 hover:-translate-y-1 hover:shadow-glow">
+              <article
+                key={review.name}
+                className="flex min-h-[22rem] flex-col rounded-[0.75rem] border border-border bg-background/96 p-7 shadow-luxury transition duration-300 hover:-translate-y-1 hover:shadow-glow"
+              >
                 <div className="flex items-center gap-3">
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-coffee text-xl text-cream">
                     {review.initial}
                   </div>
                   <div className="min-w-0">
-                    <div className="truncate font-semibold text-foreground">{review.name}</div>
-                    <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-ink">{review.source}</div>
+                    <div className="truncate font-semibold text-foreground">
+                      {review.name}
+                    </div>
+                    <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-ink">
+                      {review.source}
+                    </div>
                   </div>
                 </div>
-                <div className="mt-6 flex gap-1 text-gold" aria-label="5 star review">
+                <div
+                  className="mt-6 flex gap-1 text-gold"
+                  aria-label="5 star review"
+                >
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star key={index} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
-                <p className="mt-4 line-clamp-7 text-base leading-7 text-foreground/82">{review.body}</p>
+                <p className="mt-4 line-clamp-7 text-base leading-7 text-foreground/82">
+                  {review.body}
+                </p>
               </article>
             ))}
           </div>
@@ -432,7 +455,12 @@ function GuestReviewsSection() {
         </div>
 
         <div className="mt-8 flex justify-center">
-          <a href="https://www.yelp.com/biz/mustafa-coffee-house-hoffman-estates" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-full border border-gold px-8 py-3 text-sm font-semibold text-gold-ink transition hover:bg-gold-soft/35 hover:text-espresso">
+          <a
+            href="https://www.yelp.com/biz/mustafa-coffee-house-hoffman-estates"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center rounded-full border border-gold px-8 py-3 text-sm font-semibold text-gold-ink transition hover:bg-gold-soft/35 hover:text-espresso"
+          >
             Read More Reviews
           </a>
         </div>
@@ -453,7 +481,8 @@ const BESTSELLERS = [
     name: "Caffè Latte",
     productId: "cafe-latte",
     category: "Hot coffee",
-    description: "Silky espresso, steamed milk, and a clean layer of microfoam.",
+    description:
+      "Silky espresso, steamed milk, and a clean layer of microfoam.",
     price: 5.95,
   },
   {
@@ -461,7 +490,8 @@ const BESTSELLERS = [
     name: "Signature Latte Combo",
     productId: "signature-latte-combo",
     category: "House pairing",
-    description: "Our signature latte pairing for an easy coffee-house favorite.",
+    description:
+      "Our signature latte pairing for an easy coffee-house favorite.",
     price: 9.95,
   },
   {
@@ -469,7 +499,8 @@ const BESTSELLERS = [
     name: "Pistachio Mousse Cake",
     productId: "pistachio-mousse-cake",
     category: "Dessert",
-    description: "Airy pistachio mousse with a rich, delicately layered finish.",
+    description:
+      "Airy pistachio mousse with a rich, delicately layered finish.",
     price: 7.5,
   },
   {
@@ -507,7 +538,8 @@ function GallerySection() {
               House favorites, hanging within reach.
             </h2>
             <p className="mt-5 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-              Select a hanging portrait to reveal its details, then jump directly to the item to customize your order.
+              Select a hanging portrait to reveal its details, then jump
+              directly to the item to customize your order.
             </p>
           </div>
           <a

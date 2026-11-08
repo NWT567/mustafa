@@ -56,7 +56,7 @@ const REWARDS = [
   {
     cost: 750,
     title: "Pastry Pairing",
-      body: "Croissant + cortado pairing.",
+    body: "Croissant + cortado pairing.",
     icon: Gift,
   },
   {
@@ -82,7 +82,11 @@ const REWARDS = [
 function LoyaltyPage() {
   const [beans, setBeans] = useState(500);
   const [claimed, setClaimed] = useState<string[]>([]);
-  const [member, setMember] = useState({ isRegistered: false, name: "Guest of the House", phone: "" });
+  const [member, setMember] = useState({
+    isRegistered: false,
+    name: "Guest of the House",
+    phone: "",
+  });
 
   useEffect(() => {
     const isRegistered = localStorage.getItem("mchLoyaltyMember") === "true";
@@ -92,18 +96,25 @@ function LoyaltyPage() {
     const savedBeans = savedBeansValue === null ? 250 : Number(savedBeansValue);
     const firstName = localStorage.getItem("mchFirstName")?.trim() ?? "";
     const lastName = localStorage.getItem("mchLastName")?.trim() ?? "";
-    const name = `${firstName} ${lastName}`.trim() || localStorage.getItem("mchUserName") || "Loyalty Member";
+    const name =
+      `${firstName} ${lastName}`.trim() ||
+      localStorage.getItem("mchUserName") ||
+      "Loyalty Member";
 
     if (Number.isFinite(savedBeans) && savedBeans >= 0) setBeans(savedBeans);
     setMember({
       isRegistered: true,
       name,
-      phone: localStorage.getItem("mchLoyaltyPhone") || localStorage.getItem("mchPhone") || "",
+      phone:
+        localStorage.getItem("mchLoyaltyPhone") ||
+        localStorage.getItem("mchPhone") ||
+        "",
     });
   }, []);
 
   useEffect(() => {
-    if (member.isRegistered) localStorage.setItem("mchLoyaltyBeans", String(beans));
+    if (member.isRegistered)
+      localStorage.setItem("mchLoyaltyBeans", String(beans));
   }, [beans, member.isRegistered]);
 
   const currentTierIdx = useMemo(() => {
@@ -121,7 +132,7 @@ function LoyaltyPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-hero text-foreground">
+    <div className="relative flex min-h-screen min-w-0 flex-col bg-hero text-foreground">
       <SiteNav />
       <main className="mx-auto flex-1 max-w-7xl px-5 pb-32 pt-36 sm:px-8 lg:pt-44">
         <LoyaltyHero
@@ -180,14 +191,14 @@ function LoyaltyHero({
         <div className="mt-8 flex flex-wrap gap-3">
           <button
             onClick={onEarn}
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow transition hover:brightness-110"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-espresso shadow-glow transition hover:brightness-110 min-[420px]:w-auto min-[420px]:px-6 min-[420px]:tracking-[0.2em]"
           >
             <Zap className="h-4 w-4" /> Simulate a pour (+25)
           </button>
           <a
             href="/order"
             onClick={() => playTap()}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-foreground transition hover:border-gold hover:text-gold-ink"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-foreground transition hover:border-gold hover:text-gold-ink min-[420px]:w-auto min-[420px]:px-6 min-[420px]:tracking-[0.2em]"
           >
             Order to earn <ArrowUpRight className="h-4 w-4" />
           </a>
@@ -237,7 +248,7 @@ function BeanCard({
       <div
         onMouseMove={onMove}
         onMouseLeave={() => setT({ x: 0, y: 0 })}
-        className="relative mx-auto aspect-[1.6/1] w-full max-w-md overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-background via-card to-muted p-7 shadow-luxury transition-transform duration-300"
+        className="relative mx-auto min-h-56 w-full max-w-md overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-background via-card to-muted p-5 shadow-luxury transition-transform duration-300 min-[400px]:aspect-[1.6/1] min-[400px]:min-h-0 min-[400px]:p-7"
         style={{
           transform: `rotateY(${t.x}deg) rotateX(${t.y}deg)`,
           transformStyle: "preserve-3d",
@@ -257,7 +268,7 @@ function BeanCard({
                 {memberName}
               </div>
               {memberPhone && (
-                <div className="mt-0.5 text-[10px] tracking-[0.12em] text-muted-foreground">
+                <div className="mt-0.5 break-all text-[10px] tracking-[0.12em] text-muted-foreground">
                   {memberPhone}
                 </div>
               )}
@@ -287,9 +298,7 @@ function BeanCard({
             <div className="mt-2 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               <span>{tier.name}</span>
               {nextTier ? (
-                <span>
-                  {Math.max(0, 500 - beans)} to redeem
-                </span>
+                <span>{Math.max(0, 500 - beans)} to redeem</span>
               ) : (
                 <span>Top tier</span>
               )}
@@ -335,7 +344,10 @@ function PointsInfoSection() {
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {cards.map((card) => (
-          <article key={card.title} className="glass-panel rounded-3xl border border-border p-7 shadow-luxury">
+          <article
+            key={card.title}
+            className="glass-panel rounded-3xl border border-border p-7 shadow-luxury"
+          >
             <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow">
               <card.icon className="h-5 w-5" />
             </span>
@@ -447,7 +459,7 @@ function RewardsCTA() {
   }, []);
   return (
     <section
-      className="relative mt-32 overflow-hidden rounded-[2.5rem] border border-border bg-gradient-to-br from-background via-card to-muted p-10 shadow-luxury sm:p-16"
+      className="relative mt-24 overflow-hidden rounded-[2rem] border border-border bg-gradient-to-br from-background via-card to-muted p-6 shadow-luxury sm:mt-32 sm:rounded-[2.5rem] sm:p-16"
       data-parallax
       data-parallax-speed="0.08"
     >
@@ -492,6 +504,3 @@ function RewardsCTA() {
     </section>
   );
 }
-
-
-

@@ -1,5 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Award, CheckCircle2, HandHeart, Leaf, Lightbulb, ShieldCheck, Sparkles, Sprout, Users } from "lucide-react";
+import {
+  ArrowUpRight,
+  Award,
+  CheckCircle2,
+  HandHeart,
+  Leaf,
+  Lightbulb,
+  ShieldCheck,
+  Sparkles,
+  Sprout,
+  Users,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SiteFooter } from "@/components/footer";
 import { SiteNav } from "@/components/nav";
@@ -75,7 +86,7 @@ const values: Array<{ icon: LucideIcon; title: string; body: string }> = [
 
 function CoreValuesPage() {
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-gradient-to-b from-background via-cream to-latte/25 text-foreground">
+    <div className="relative flex min-h-screen min-w-0 flex-col bg-gradient-to-b from-background via-cream to-latte/25 text-foreground">
       <SiteNav />
       <main className="flex-1">
         <section className="relative overflow-hidden px-5 pb-16 pt-36 sm:px-8 lg:pt-44">
@@ -89,7 +100,9 @@ function CoreValuesPage() {
                 Our Core Values
               </h1>
               <p className="mt-7 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-                These twelve principles define who we are, how we serve our guests, and how we grow as a company. They guide every decision we make and every experience we create.
+                These twelve principles define who we are, how we serve our
+                guests, and how we grow as a company. They guide every decision
+                we make and every experience we create.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Pill label="12 Principles" />
@@ -100,11 +113,19 @@ function CoreValuesPage() {
 
             <div className="lg:col-span-6">
               <div className="relative mx-auto aspect-[5/4] max-w-xl overflow-hidden rounded-[2rem] border border-border bg-card shadow-luxury">
-                <img src={valuesHeroImg} alt="Mustafa Coffee House interior seating and service area" className="absolute inset-0 h-full w-full object-cover" />
+                <img
+                  src={valuesHeroImg}
+                  alt="Mustafa Coffee House interior seating and service area"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/10 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 rounded-3xl border border-cream/25 bg-background/88 p-5 backdrop-blur-md">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-ink">Values in action</div>
-                  <p className="mt-2 font-display text-2xl leading-tight text-foreground sm:text-3xl">Quality, hospitality, trust, and community in every cup.</p>
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-ink">
+                    Values in action
+                  </div>
+                  <p className="mt-2 font-display text-2xl leading-tight text-foreground sm:text-3xl">
+                    Quality, hospitality, trust, and community in every cup.
+                  </p>
                 </div>
               </div>
             </div>
@@ -126,12 +147,19 @@ function CoreValuesPage() {
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow">
               <HandHeart className="h-6 w-6" />
             </div>
-            <h2 className="mt-5 font-display text-4xl leading-tight text-foreground sm:text-5xl">One cup at a time.</h2>
+            <h2 className="mt-5 font-display text-4xl leading-tight text-foreground sm:text-5xl">
+              One cup at a time.
+            </h2>
             <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
-              These values keep Mustafa Coffee House grounded as we serve guests, support our team, and grow into new communities with purpose.
+              These values keep Mustafa Coffee House grounded as we serve
+              guests, support our team, and grow into new communities with
+              purpose.
             </p>
             <div className="mt-8 flex justify-center">
-              <Link to="/about" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow">
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow"
+              >
                 Back to About <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
@@ -143,7 +171,13 @@ function CoreValuesPage() {
   );
 }
 
-function ValueCard({ value, index }: { value: { icon: LucideIcon; title: string; body: string }; index: number }) {
+function ValueCard({
+  value,
+  index,
+}: {
+  value: { icon: LucideIcon; title: string; body: string };
+  index: number;
+}) {
   const Icon = value.icon;
   return (
     <article className="group relative min-h-[17rem] overflow-hidden rounded-3xl border border-border bg-background/88 p-7 shadow-luxury transition hover:-translate-y-1 hover:shadow-glow">
@@ -152,10 +186,16 @@ function ValueCard({ value, index }: { value: { icon: LucideIcon; title: string;
         <span className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow">
           <Icon className="h-5 w-5" />
         </span>
-        <span className="font-display text-5xl leading-none text-gold/20">{String(index + 1).padStart(2, "0")}</span>
+        <span className="font-display text-5xl leading-none text-gold/20">
+          {String(index + 1).padStart(2, "0")}
+        </span>
       </div>
-      <h2 className="relative mt-7 font-display text-3xl leading-tight text-foreground">{value.title}</h2>
-      <p className="relative mt-3 text-sm leading-6 text-muted-foreground">{value.body}</p>
+      <h2 className="relative mt-7 font-display text-3xl leading-tight text-foreground">
+        {value.title}
+      </h2>
+      <p className="relative mt-3 text-sm leading-6 text-muted-foreground">
+        {value.body}
+      </p>
     </article>
   );
 }

@@ -69,7 +69,7 @@ const PLATFORMS: Platform[] = [
 
 function DownloadPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div className="min-h-screen min-w-0 bg-background text-foreground">
       <SiteNav />
 
       <main>

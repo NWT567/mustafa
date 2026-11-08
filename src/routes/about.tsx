@@ -35,7 +35,7 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-hero text-foreground">
+    <div className="relative flex min-h-screen min-w-0 flex-col bg-hero text-foreground">
       <SiteNav />
       <main className="mx-auto flex-1 max-w-7xl px-5 pb-32 pt-36 sm:px-8 lg:pt-44">
         <AboutHero />
@@ -84,7 +84,7 @@ function AboutHero() {
           hospitality come together to build lasting connections within the
           community.
         </p>
-        <div className="mt-10 grid max-w-xl grid-cols-3 gap-6 border-t border-border pt-6">
+        <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 border-t border-border pt-6 sm:gap-6">
           <Stat kpi="24/7" label="Open daily" />
           <Stat kpi="100%" label="In-store baked" />
           <Stat kpi="IL+" label="Growing footprint" />
@@ -312,12 +312,16 @@ function ValuesSection() {
             Our Core Values
           </div>
           <h2 className="mt-3 font-display text-4xl leading-tight text-foreground sm:text-5xl">
-            What guides every <em className="italic text-gold-gradient">decision</em> we make.
+            What guides every{" "}
+            <em className="italic text-gold-gradient">decision</em> we make.
           </h2>
           <p className="mt-5 text-sm text-muted-foreground">
             The principles and promises behind every guest interaction.
           </p>
-          <Link to="/core-values" className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow transition hover:brightness-110">
+          <Link
+            to="/core-values"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow transition hover:brightness-110"
+          >
             Our Core Values <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
@@ -329,11 +333,17 @@ function ValuesSection() {
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
               className={`glass-panel rounded-3xl border border-border p-6 transition-all duration-500 sm:p-8 ${
-                hoveredIdx === i ? "scale-[1.02] border-gold/40 shadow-glow" : ""
+                hoveredIdx === i
+                  ? "scale-[1.02] border-gold/40 shadow-glow"
+                  : ""
               }`}
             >
-              <span className="font-display text-4xl text-gold-gradient">0{i + 1}</span>
-              <div className="mt-8 font-display text-3xl text-foreground">{v.title}</div>
+              <span className="font-display text-4xl text-gold-gradient">
+                0{i + 1}
+              </span>
+              <div className="mt-8 font-display text-3xl text-foreground">
+                {v.title}
+              </div>
               <p className="mt-3 text-sm text-muted-foreground">{v.body}</p>
               <span className="mt-8 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 Open page <ArrowUpRight className="h-4 w-4" />
@@ -421,6 +431,3 @@ function PromiseSection() {
     </section>
   );
 }
-
-
-

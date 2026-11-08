@@ -105,7 +105,7 @@ function CareersPage() {
   ];
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-hero text-foreground">
+    <div className="relative flex min-h-screen min-w-0 flex-col bg-hero text-foreground">
       <SiteNav />
       <main className="mx-auto flex-1 max-w-6xl px-5 pb-32 pt-36 sm:px-8 lg:pt-44">
         <header
@@ -295,7 +295,7 @@ function CareersPage() {
               <div className="mt-8">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-8 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-espresso shadow-glow transition hover:brightness-110 disabled:cursor-not-allowed"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-espresso shadow-glow transition hover:brightness-110 disabled:cursor-not-allowed sm:w-auto sm:px-8 sm:py-4 sm:tracking-[0.25em]"
                 >
                   Submit Application <ArrowUpRight className="h-4 w-4" />
                 </button>
@@ -310,7 +310,7 @@ function CareersPage() {
 }
 
 const inputCx =
-  "w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition focus:border-gold focus:shadow-glow";
+  "min-h-11 w-full min-w-0 rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition focus:border-gold focus:shadow-glow";
 
 function Field({
   label,

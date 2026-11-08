@@ -91,7 +91,7 @@ export function AdminShell({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-white/10 bg-espresso text-cream transition-[width,transform] duration-200 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex h-dvh w-[min(88vw,16rem)] flex-col border-r border-white/10 bg-espresso text-cream transition-[width,transform] duration-200 lg:w-64 lg:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         } ${collapsed ? "lg:w-20" : "lg:w-64"}`}
       >
@@ -113,7 +113,7 @@ export function AdminShell({
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
-            className="grid h-9 w-9 place-items-center rounded-lg text-cream/65 transition hover:bg-white/10 hover:text-cream lg:hidden"
+            className="grid h-11 w-11 place-items-center rounded-lg text-cream/65 transition hover:bg-white/10 hover:text-cream lg:hidden"
             aria-label="Close navigation"
           >
             <X className="h-4 w-4" />
@@ -170,12 +170,12 @@ export function AdminShell({
       <div
         className={`transition-[padding] duration-200 ${collapsed ? "lg:pl-20" : "lg:pl-64"}`}
       >
-        <header className="sticky top-0 z-30 flex h-20 items-center justify-between border-b border-border bg-background/95 px-5 backdrop-blur sm:px-7 lg:px-9">
+        <header className="sticky top-0 z-30 flex h-20 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 backdrop-blur sm:px-7 lg:px-9">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border text-foreground transition hover:border-gold hover:text-gold-ink lg:hidden"
+              className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-border text-foreground transition hover:border-gold hover:text-gold-ink lg:hidden"
               aria-label="Open navigation"
             >
               <Menu className="h-4 w-4" />
@@ -191,14 +191,14 @@ export function AdminShell({
           </div>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-xl border border-border px-3.5 py-2 text-sm text-muted-foreground transition hover:border-gold hover:text-gold-ink"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl border border-border px-3 text-sm text-muted-foreground transition hover:border-gold hover:text-gold-ink sm:px-3.5"
           >
             <Coffee className="h-4 w-4" />
             <span className="hidden sm:inline">View website</span>
           </Link>
         </header>
 
-        <main className="mx-auto w-full max-w-[1500px] px-5 py-7 sm:px-7 lg:px-9 lg:py-9">
+        <main className="mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 sm:px-7 sm:py-7 lg:px-9 lg:py-9">
           {children}
         </main>
       </div>

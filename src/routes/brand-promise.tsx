@@ -1,5 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Check, Coffee, HandHeart, ShieldCheck, Sparkles, Users } from "lucide-react";
+import {
+  ArrowUpRight,
+  Check,
+  Coffee,
+  HandHeart,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SiteFooter } from "@/components/footer";
 import { SiteNav } from "@/components/nav";
@@ -41,7 +49,7 @@ const pillars = [
 
 function BrandPromisePage() {
   return (
-    <div className="brand-promise-page relative flex min-h-screen flex-col overflow-x-hidden bg-gradient-to-b from-background via-cream to-latte/25 text-foreground">
+    <div className="brand-promise-page relative flex min-h-screen min-w-0 flex-col bg-gradient-to-b from-background via-cream to-latte/25 text-foreground">
       <SiteNav />
       <main className="flex-1">
         <section className="relative overflow-hidden px-5 pb-16 pt-36 sm:px-8 lg:pt-44">
@@ -55,22 +63,35 @@ function BrandPromisePage() {
                 Our Brand Promise
               </h1>
               <p className="mt-7 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-                More than a commitment, it's the foundation of every decision we make and every experience we create.
+                More than a commitment, it's the foundation of every decision we
+                make and every experience we create.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 {pillars.map((item) => (
-                  <Pillar key={item.label} icon={item.icon} label={item.label} />
+                  <Pillar
+                    key={item.label}
+                    icon={item.icon}
+                    label={item.label}
+                  />
                 ))}
               </div>
             </div>
 
             <div className="lg:col-span-6">
               <div className="relative mx-auto aspect-[5/4] max-w-xl overflow-hidden rounded-[2rem] border border-border bg-card shadow-luxury">
-                <img src={promiseHeroImg} alt="Mustafa Coffee House seating with warm cafe lighting" className="absolute inset-0 h-full w-full object-cover" />
+                <img
+                  src={promiseHeroImg}
+                  alt="Mustafa Coffee House seating with warm cafe lighting"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/15 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 rounded-3xl border border-cream/25 bg-background/88 p-5 backdrop-blur-md">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-ink">Every Guest. Every Visit. Every Time.</div>
-                  <p className="mt-2 font-display text-2xl leading-tight text-foreground sm:text-3xl">Premium Coffee. Authentic Flavors. Genuine Hospitality.</p>
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-ink">
+                    Every Guest. Every Visit. Every Time.
+                  </div>
+                  <p className="mt-2 font-display text-2xl leading-tight text-foreground sm:text-3xl">
+                    Premium Coffee. Authentic Flavors. Genuine Hospitality.
+                  </p>
                 </div>
               </div>
             </div>
@@ -80,20 +101,36 @@ function BrandPromisePage() {
         <section className="bg-gradient-to-b from-latte/25 via-background to-cream/70 px-5 py-16 sm:px-8">
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr]">
             <aside className="rounded-[2rem] border border-border bg-background/85 p-7 shadow-luxury lg:sticky lg:top-32 lg:h-fit">
-              <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">- Our Promise</div>
-              <h2 className="mt-3 font-display text-4xl leading-tight text-foreground sm:text-5xl">Built into every detail.</h2>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
+                - Our Promise
+              </div>
+              <h2 className="mt-3 font-display text-4xl leading-tight text-foreground sm:text-5xl">
+                Built into every detail.
+              </h2>
               <p className="mt-5 text-sm leading-7 text-muted-foreground">
-                Our promise connects the coffee, the service, the room, and the people behind every order.
+                Our promise connects the coffee, the service, the room, and the
+                people behind every order.
               </p>
               <div className="mt-7 overflow-hidden rounded-3xl border border-border bg-card">
-                <img src={cafeCounterImg} alt="Mustafa Coffee House counter and dessert display" className="aspect-[4/3] w-full object-cover" />
+                <img
+                  src={cafeCounterImg}
+                  alt="Mustafa Coffee House counter and dessert display"
+                  className="aspect-[4/3] w-full object-cover"
+                />
               </div>
             </aside>
 
             <article className="rounded-[2rem] border border-border bg-background/90 p-6 shadow-luxury sm:p-9">
               <div className="space-y-5 text-sm leading-7 text-muted-foreground sm:text-[15px] sm:leading-8">
                 {promiseParagraphs.map((paragraph, index) => (
-                  <p key={index} className={index === 0 ? "font-semibold text-foreground" : undefined}>{paragraph}</p>
+                  <p
+                    key={index}
+                    className={
+                      index === 0 ? "font-semibold text-foreground" : undefined
+                    }
+                  >
+                    {paragraph}
+                  </p>
                 ))}
               </div>
             </article>
@@ -103,27 +140,43 @@ function BrandPromisePage() {
         <section className="px-5 py-16 sm:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
-              <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">- Our Promise to Every Guest</div>
-              <h2 className="mt-3 font-display text-4xl leading-tight text-foreground sm:text-5xl">When you choose Mustafa Coffee House, you can always expect:</h2>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-gold-ink">
+                - Our Promise to Every Guest
+              </div>
+              <h2 className="mt-3 font-display text-4xl leading-tight text-foreground sm:text-5xl">
+                When you choose Mustafa Coffee House, you can always expect:
+              </h2>
             </div>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {expectations.map((item) => (
-                <div key={item} className="group relative min-h-[11rem] overflow-hidden rounded-3xl border border-border bg-background/88 p-5 shadow-luxury">
+                <div
+                  key={item}
+                  className="group relative min-h-[11rem] overflow-hidden rounded-3xl border border-border bg-background/88 p-5 shadow-luxury"
+                >
                   <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gold/10 transition group-hover:scale-125" />
                   <span className="relative grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-gold-soft to-caramel text-espresso shadow-glow">
                     <Check className="h-5 w-5" />
                   </span>
-                  <p className="relative mt-5 text-sm leading-6 text-muted-foreground">{item}</p>
+                  <p className="relative mt-5 text-sm leading-6 text-muted-foreground">
+                    {item}
+                  </p>
                 </div>
               ))}
             </div>
 
             <div className="mt-10 rounded-[2rem] border border-gold/25 bg-gradient-to-br from-gold-soft/45 via-background to-caramel/25 p-7 text-center shadow-luxury sm:p-10">
-              <p className="font-display text-3xl leading-tight text-foreground sm:text-5xl">Premium Coffee. Authentic Flavors. Genuine Hospitality.</p>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-gold-ink sm:text-sm">Every Guest. Every Visit. Every Time.</p>
+              <p className="font-display text-3xl leading-tight text-foreground sm:text-5xl">
+                Premium Coffee. Authentic Flavors. Genuine Hospitality.
+              </p>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-gold-ink sm:text-sm">
+                Every Guest. Every Visit. Every Time.
+              </p>
               <div className="mt-8 flex justify-center">
-                <Link to="/about" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-espresso shadow-glow"
+                >
                   Back to About <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>

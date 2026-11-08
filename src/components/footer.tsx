@@ -11,12 +11,12 @@ export function SiteFooter() {
         <div>
           <Link
             to="/"
-            className="inline-flex rounded-2xl border border-background/65 bg-background px-6 py-4 shadow-[0_18px_50px_rgba(64,34,20,0.14)]"
+            className="inline-flex max-w-full rounded-2xl border border-background/65 bg-background px-4 py-3 shadow-[0_18px_50px_rgba(64,34,20,0.14)] sm:px-6 sm:py-4"
           >
             <img
               src="/mustafa-logo.webp"
               alt="Mustafa Coffee House"
-              className="h-14 w-auto object-contain sm:h-16"
+              className="h-auto max-h-14 w-auto max-w-full object-contain sm:max-h-16"
               loading="eager"
               decoding="async"
             />
@@ -26,13 +26,25 @@ export function SiteFooter() {
             all day.
           </p>
           <div className="mt-6 flex items-center gap-3">
-            <a href="https://www.facebook.com/" aria-label="Facebook" className="grid h-10 w-10 place-items-center rounded-full border border-espresso/15 bg-background/55 text-espresso shadow-sm transition hover:bg-background/85">
+            <a
+              href="https://www.facebook.com/"
+              aria-label="Facebook"
+              className="grid h-11 w-11 place-items-center rounded-full border border-espresso/15 bg-background/55 text-espresso shadow-sm transition hover:bg-background/85"
+            >
               <Facebook className="h-4 w-4" />
             </a>
-            <a href="https://www.instagram.com/" aria-label="Instagram" className="grid h-10 w-10 place-items-center rounded-full border border-espresso/15 bg-background/55 text-espresso shadow-sm transition hover:bg-background/85">
+            <a
+              href="https://www.instagram.com/"
+              aria-label="Instagram"
+              className="grid h-11 w-11 place-items-center rounded-full border border-espresso/15 bg-background/55 text-espresso shadow-sm transition hover:bg-background/85"
+            >
               <Instagram className="h-4 w-4" />
             </a>
-            <a href="https://www.yelp.com/biz/mustafa-coffee-house-hoffman-estates" aria-label="Yelp" className="grid h-10 w-10 place-items-center rounded-full border border-espresso/15 bg-background/55 text-espresso shadow-sm transition hover:bg-background/85">
+            <a
+              href="https://www.yelp.com/biz/mustafa-coffee-house-hoffman-estates"
+              aria-label="Yelp"
+              className="grid h-11 w-11 place-items-center rounded-full border border-espresso/15 bg-background/55 text-espresso shadow-sm transition hover:bg-background/85"
+            >
               <Star className="h-4 w-4 fill-current" />
             </a>
           </div>
@@ -45,7 +57,10 @@ export function SiteFooter() {
           <address className="mt-4 space-y-1.5 text-sm not-italic leading-6 text-espresso/78">
             <div>2509 W Golf Rd</div>
             <div>Hoffman Estates, IL 60169</div>
-            <a href="tel:8476415915" className="block transition hover:text-espresso">
+            <a
+              href="tel:8476415915"
+              className="block transition hover:text-espresso"
+            >
               847 641-5915
             </a>
           </address>
@@ -62,18 +77,31 @@ export function SiteFooter() {
           <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-espresso">
             Quick Links
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-3 text-sm leading-6 text-espresso/78">
-            <Link to="/about" className="transition hover:text-espresso">About Us</Link>
-            <Link to="/careers" className="transition hover:text-espresso">Careers</Link>
-            <Link to="/loyalty" className="transition hover:text-espresso">Loyalty</Link>
-            <Link to="/franchise" className="transition hover:text-espresso">Franchise</Link>
-            <Link to="/contact" className="transition hover:text-espresso">Contact Us</Link>
-            <Link to="/order" className="transition hover:text-espresso">Menu</Link>
+          <div className="mt-4 grid grid-cols-2 gap-x-5 gap-y-3 text-sm leading-6 text-espresso/78 sm:gap-x-8">
+            <Link to="/about" className="transition hover:text-espresso">
+              About Us
+            </Link>
+            <Link to="/careers" className="transition hover:text-espresso">
+              Careers
+            </Link>
+            <Link to="/loyalty" className="transition hover:text-espresso">
+              Loyalty
+            </Link>
+            <Link to="/franchise" className="transition hover:text-espresso">
+              Franchise
+            </Link>
+            <Link to="/contact" className="transition hover:text-espresso">
+              Contact Us
+            </Link>
+            <Link to="/order" className="transition hover:text-espresso">
+              Menu
+            </Link>
           </div>
         </div>
       </div>
       <div className="relative border-t border-espresso/12 bg-espresso/5 px-5 py-5 text-center text-xs leading-6 text-espresso/72">
-        © 2026 Mustafa Coffee House. All rights reserved. · Privacy Policy · Terms of Service · Website by Nebula Webtech LLC
+        © 2026 Mustafa Coffee House. All rights reserved. · Privacy Policy ·
+        Terms of Service · Website by Nebula Webtech LLC
       </div>
     </footer>
   );

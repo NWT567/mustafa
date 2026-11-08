@@ -1,6 +1,12 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
 import { Logo } from "@/components/logo";
 
 const LINKS: { to: string; label: string }[] = [
@@ -44,12 +50,15 @@ export function SiteNav({
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40" style={{ perspective: "1200px" }}>
+      <header
+        className="fixed inset-x-0 top-0 z-40 px-3 sm:px-5"
+        style={{ perspective: "1200px" }}
+      >
         <div
           ref={navRef}
           onMouseMove={handleNavMove}
           onMouseLeave={() => setNavTilt({ x: 0, y: 0 })}
-          className="mx-auto mt-4 grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full border border-border bg-card px-4 py-3 shadow-luxury transition-transform duration-300 ease-out sm:px-6 lg:px-8"
+          className="mx-auto mt-3 grid w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-full border border-border bg-card px-3 py-2.5 shadow-luxury transition-transform duration-300 ease-out sm:mt-4 sm:gap-3 sm:px-6 sm:py-3 lg:grid-cols-[auto_1fr_auto] lg:px-8"
           style={{
             transform: `rotateY(${navTilt.x}deg) rotateX(${navTilt.y}deg)`,
             transformStyle: "preserve-3d",
@@ -62,7 +71,7 @@ export function SiteNav({
           >
             <Logo
               showWordmark
-              className="h-11 w-auto max-w-[13rem] origin-left transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.02] motion-reduce:transform-none sm:h-12 lg:h-14"
+              className="h-10 w-auto max-w-[9.5rem] origin-left transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.02] motion-reduce:transform-none sm:h-12 sm:max-w-[13rem] lg:h-14"
             />
           </Link>
           <nav className="hidden items-center justify-center gap-7 text-sm text-muted-foreground lg:flex">
@@ -81,7 +90,7 @@ export function SiteNav({
               </Link>
             ))}
           </nav>
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex min-w-0 items-center justify-end gap-1.5 sm:gap-2">
             {extras}
             {showSignIn && (
               <Link
@@ -104,7 +113,7 @@ export function SiteNav({
               type="button"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
-              className="group grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none lg:hidden"
+              className="group grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold-ink hover:shadow-glow motion-reduce:transform-none lg:hidden"
             >
               <Menu className="h-4 w-4 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 motion-reduce:transform-none" />
             </button>
@@ -122,10 +131,13 @@ export function SiteNav({
           className={`absolute inset-0 bg-black/30 backdrop-blur-md transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
         />
         <aside
-          className={`absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col gap-8 border-l border-border bg-gradient-to-b from-background via-card to-muted p-6 shadow-luxury transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"}`}
+          className={`absolute right-0 top-0 flex h-dvh w-[min(90vw,24rem)] flex-col gap-5 overflow-y-auto border-l border-border bg-gradient-to-b from-background via-card to-muted p-5 shadow-luxury transition-transform duration-300 ease-out sm:gap-8 sm:p-6 ${open ? "translate-x-0" : "translate-x-full"}`}
         >
           <div className="flex items-center justify-between">
-            <Logo showWordmark className="h-11 w-auto max-w-[13rem] sm:h-12" />
+            <Logo
+              showWordmark
+              className="h-10 w-auto max-w-[10rem] sm:h-12 sm:max-w-[13rem]"
+            />
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -141,7 +153,7 @@ export function SiteNav({
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="group flex items-center justify-between py-5 font-display text-3xl text-foreground transition hover:text-gold-ink"
+                className="group flex min-h-12 items-center justify-between py-3 font-display text-2xl text-foreground transition hover:text-gold-ink sm:py-5 sm:text-3xl"
                 style={{
                   transitionDelay: open ? `${i * 60}ms` : "0ms",
                   opacity: open ? 1 : 0,

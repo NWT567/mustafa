@@ -103,10 +103,11 @@ function AdminLoginPage() {
           </Link>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-cream/65 transition hover:bg-cream/5 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="inline-flex h-11 items-center gap-2 rounded-lg px-3 text-sm text-cream/65 transition hover:bg-cream/5 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            aria-label="Open public website"
           >
             <ArrowLeft className="h-4 w-4" />
-            Public website
+            <span className="hidden sm:inline">Public website</span>
           </Link>
         </header>
 
@@ -136,7 +137,7 @@ function AdminLoginPage() {
             </div>
           </section>
 
-          <section className="mx-auto w-full max-w-md rounded-2xl border border-cream/10 bg-cream/[0.04] p-6 shadow-2xl shadow-black/20 sm:p-8">
+          <section className="mx-auto w-full max-w-md rounded-2xl border border-cream/10 bg-cream/[0.04] p-5 shadow-2xl shadow-black/20 sm:p-8">
             <div className="grid h-11 w-11 place-items-center rounded-xl border border-gold/30 bg-gold/10 text-gold-soft">
               <LockKeyhole className="h-5 w-5" />
             </div>

@@ -128,7 +128,7 @@ function FranchisePage() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-hero text-foreground">
+    <div className="relative flex min-h-screen min-w-0 flex-col bg-hero text-foreground">
       <SiteNav />
       <main className="mx-auto flex-1 max-w-5xl px-5 pb-32 pt-36 sm:px-8 lg:pt-44">
         <header className="mb-12" data-parallax data-parallax-speed="0.08">
@@ -317,10 +317,7 @@ function FranchisePage() {
               </div>
             </Section>
 
-            <Section
-              number="5"
-              title="Operating Commitments"
-            >
+            <Section number="5" title="Operating Commitments">
               <Field
                 label="1. All bakery products and designated beverages must be produced in-store."
                 required
@@ -410,7 +407,7 @@ function FranchisePage() {
             <div className="flex flex-wrap items-center gap-4 pt-4">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-8 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-espresso shadow-glow transition hover:brightness-110"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-soft to-caramel px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-espresso shadow-glow transition hover:brightness-110 sm:w-auto sm:px-8 sm:py-4 sm:tracking-[0.25em]"
               >
                 Submit Pre-Qualification Application{" "}
                 <ArrowUpRight className="h-4 w-4" />
@@ -429,7 +426,7 @@ function FranchisePage() {
 }
 
 const inputCx =
-  "w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition focus:border-gold focus:shadow-glow";
+  "min-h-11 w-full min-w-0 rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition focus:border-gold focus:shadow-glow";
 
 function Section({
   number,
@@ -444,11 +441,11 @@ function Section({
 }) {
   return (
     <section className="glass-panel rounded-3xl p-6 sm:p-8">
-      <div className="mb-6 flex items-baseline gap-4">
+      <div className="mb-6 flex min-w-0 items-baseline gap-3 sm:gap-4">
         <span className="font-display text-3xl text-gold-gradient">
           {number}
         </span>
-        <div>
+        <div className="min-w-0">
           <h2 className="font-display text-2xl text-foreground sm:text-3xl">
             {title}
           </h2>
@@ -549,6 +546,3 @@ function SuccessCard({ title, body }: { title: string; body: string }) {
     </div>
   );
 }
-
-
-
