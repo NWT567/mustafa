@@ -7,6 +7,7 @@ import {
   useRouterState,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -41,7 +42,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
 
@@ -154,16 +155,20 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
   usePremiumMotion(pathname !== "/order");
 
   useEffect(() => {
     if (!("serviceWorker" in navigator) || import.meta.env.DEV) return;
 
     const registerServiceWorker = () => {
-      navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error) => {
-        console.error("Service worker registration failed:", error);
-      });
+      navigator.serviceWorker
+        .register("/sw.js", { scope: "/" })
+        .catch((error) => {
+          console.error("Service worker registration failed:", error);
+        });
     };
 
     if (document.readyState === "complete") {
